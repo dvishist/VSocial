@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "API server for vsocial app",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "start": "node index"
+    "dev": "nodemon index"
   },
   "repository": {
     "type": "git",

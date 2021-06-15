@@ -1,9 +1,12 @@
-import express from "express"
+const express = require("express")
 const app = express()
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-import helmet from 'helmet'
-import morgan from 'morgan'
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+const helmet = require('helmet')
+const morgan = require('morgan')
+
+const userRouter = require('./routers/userRouter')
+const authRouter = require('./routers/authRouter')
 
 dotenv.config()
 
@@ -22,9 +25,9 @@ app.use(express.json())
 app.use(helmet())
 app.use(morgan('common'))
 
-app.get('/', (req, res) => {
-    res.status(200).send('Hello World')
-})
+//routers
+app.use('/api/users', userRouter)
+app.use('/api/auth', authRouter)
 
 app.listen(port, () => {
     console.log('Server is running on Port: ', port)
