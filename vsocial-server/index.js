@@ -24,7 +24,7 @@ app.use(morgan('common'))
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello World')
-}
+})
 
 app.listen(port, () => {
     console.log('Server is running on Port: ', port)
