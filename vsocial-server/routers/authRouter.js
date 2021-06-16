@@ -1,8 +1,6 @@
-const { Router } = require('express')
+const router = require('express').Router()
 const User = require('../models/User')
 const auth = require('../middleware/auth')
-
-const router = Router()
 
 //creates a new user
 router.post('/register', async (req, res) => {
@@ -27,6 +25,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
+//logs out the user, removes the current token from the tokens list
 router.post('/logout', auth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(tokenObj => tokenObj.token !== req.token)

@@ -1,8 +1,7 @@
-const { Router } = require('express')
+const router = require('express').Router()
 const auth = require('../middleware/auth')
 const User = require('../models/User')
 
-const router = Router()
 
 //get self profile
 router.get('/self', auth, async (req, res) => {
