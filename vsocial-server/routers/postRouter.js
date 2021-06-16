@@ -8,7 +8,7 @@ const sharp = require('sharp')
 //create new post
 router.post('/', auth, upload.single('image'), async (req, res) => {
     try {
-        //create an object with description as request body
+        //create an object with description
         const postObj = {
             description: req.body.description
         }
