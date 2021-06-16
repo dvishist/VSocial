@@ -76,13 +76,16 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
 })
 
 //delete post
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
+        if (!post) res.status(404).send('Post Not Found')
+        if (post.userId !== req.user._id.toString())
+            res.status(401).send('Cannot delete Post belonging to another user')
         post.remove()
         res.status(204).send()
     } catch (err) {
-        res.status(404).send("Post Not Found")
+        res.status(400).send(err.message)
     }
 })
 
