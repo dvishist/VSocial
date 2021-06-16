@@ -91,7 +91,8 @@ router.patch('/:id/like', auth, async (req, res) => {
 router.patch('/:id/unlike', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
-
+        //if post doesn't exist, send error
+        if (!post) throw new Error('Post Not Found')
         //if like doesn't exist, send error
         if (!post.likes.includes(req.user._id.toString()))
             throw new Error('User does not like the post')
@@ -105,6 +106,17 @@ router.patch('/:id/unlike', auth, async (req, res) => {
     }
 })
 
-
+//get image
+router.get('/:id/image', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        if (!post) throw new Error('Post Not Found')
+        if (!post.image) throw new Error('Image Does Not Exist')
+        res.set('Content-Type', 'image/png')
+        res.send(post.image)
+    } catch (err) {
+        res.status(404).send(err.message)
+    }
+})
 
 module.exports = router
