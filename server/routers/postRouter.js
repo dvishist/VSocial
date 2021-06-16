@@ -29,5 +29,29 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     }
 })
 
+//create new post
+router.patch('/:id', auth, upload.single('image'), async (req, res) => {
+    try {
+        //find post by id
+        const post = await Post.findById(req.params.id)
+
+        //add description if exists
+        if (req.body.description) post.description = req.body.description
+
+        //if image is uploaded, add/overwrite image to the post
+        if (req.file) {
+            const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+            post.image = buffer
+        }
+
+        //save post
+        await post.save()
+        res.status(200).send(post)
+    } catch (err) {
+        res.status(400).send(err.messsage)
+    }
+})
+
+
 
 module.exports = router
