@@ -52,8 +52,8 @@ router.patch('/:id/follow', auth, async (req, res) => {
         //find the user to be followed
         const followedUser = await User.findById(req.params.id)
 
-        //if the relation already exists, return an error
-        if (currentUser.following.includes(req.params.id) || followedUser.followers.includes(currentUser._id.toString()))
+        //if the relation already exists or if the ids are same, return an error
+        if (currentUser.following.includes(req.params.id) || followedUser.followers.includes(currentUser._id.toString()) || currentUser._id.toString() == req.params.id)
             return res.status(400).send('Cannot process the follow operation')
 
         //add currentUser to the list of followed user's followers
