@@ -1,11 +1,22 @@
 const { Router } = require('express')
 const auth = require('../middleware/auth')
+const User = require('../models/User')
 
 const router = Router()
 
-//get profile
+//get self profile
 router.get('/self', auth, async (req, res) => {
     res.status(200).send(req.user)
+})
+
+//get others profile
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.status(200).send(user)
+    } catch (err) {
+        res.status(404).send(err.message)
+    }
 })
 
 //update profile
@@ -23,5 +34,16 @@ router.patch('/self', auth, async (req, res) => {
         res.status(400).send(err.message)
     }
 })
+
+//delete user
+router.delete('/self', auth, async (req, res) => {
+    try {
+        await req.user.remove()
+        res.status(204).send()
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+})
+
 
 module.exports = router
