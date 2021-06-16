@@ -10,11 +10,9 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     try {
         //create an object with description
         const postObj = {
-            description: req.body.description
+            description: req.body.description,
+            userId: req.user._id
         }
-
-        //add user Id from auth
-        postObj.userId = req.user._id
 
         //if image is uploaded, add image to the post
         if (req.file) {
