@@ -23,6 +23,13 @@ const postSchema = mongoose.Schema({
     }
 )
 
+//filter sensitive data before sending JSON
+postSchema.methods.toJSON = function () {
+    const post = this.toObject()
+    delete post.image
+    return post
+}
+
 const post = mongoose.model('Post', postSchema)
 
 module.exports = post

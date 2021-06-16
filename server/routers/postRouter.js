@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const auth = require('../middleware/auth')
 const upload = require('../middleware/upload')
-const User = require('../models/User')
 const Post = require('../models/Post')
 const sharp = require('sharp')
 
@@ -105,5 +104,7 @@ router.patch('/:id/unlike', auth, async (req, res) => {
         res.status(400).send(err.message)
     }
 })
+
+
 
 module.exports = router
