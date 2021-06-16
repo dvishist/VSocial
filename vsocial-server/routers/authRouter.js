@@ -2,7 +2,7 @@ const router = require('express').Router()
 const User = require('../models/User')
 const auth = require('../middleware/auth')
 
-//creates a new user
+//create a user
 router.post('/register', async (req, res) => {
     const user = new User(req.body)
 
@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
     }
 })
 
-//returns an object with user profile and a jwt token
+//login user, returns an object with user profile and a jwt token
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
-//logs out the user, removes the current token from the tokens list
+//logout user, removes the current token from the tokens list
 router.post('/logout', auth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(tokenObj => tokenObj.token !== req.token)
