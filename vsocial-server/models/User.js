@@ -74,6 +74,9 @@ userSchema.methods.toJSON = function () {
     delete userObject.tokens
     delete userObject.createdAt
     delete userObject.updatedAt
+    delete userObject.profilePicture
+    delete userObject.coverPicture
+
 
     return userObject
 }
