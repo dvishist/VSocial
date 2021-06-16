@@ -3,6 +3,7 @@ const User = require('../models/User')
 
 const router = Router()
 
+//creates a new user
 router.post('/register', async (req, res) => {
     const user = new User(req.body)
 
@@ -22,6 +23,14 @@ router.post('/login', async (req, res) => {
         res.status(202).send({ user, token })
     } catch (err) {
         res.status(400).send(err.message)
+    }
+})
+
+router.post('/logout', async () => {
+    try {
+
+    } catch (err) {
+
     }
 })
 
