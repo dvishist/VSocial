@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const auth = require('../middleware/auth')
 const User = require('../models/User')
-
+const upload = require('../middleware/upload')
+const sharp = require('sharp')
 
 //get self profile
 router.get('/self', auth, async (req, res) => {
@@ -13,6 +14,32 @@ router.get('/:id', auth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
         res.status(200).send(user)
+    } catch (err) {
+        res.status(404).send(err.message)
+    }
+})
+
+//upload Profile/Cover Picture
+router.post('/:pictureType', auth, upload.single('image'), async (req, res) => {
+    try {
+        const user = req.user
+        const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+        user[req.params.pictureType] = buffer
+        await user.save()
+        res.status(201).send(user)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+//get profile/Cover Picture
+router.get('/:id/:pictureType', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        if (!user) throw new Error('User Not Found')
+        if (!user[req.params.pictureType]) throw new Error('Image Not Found')
+        res.set('Content-Type', 'image/png')
+        res.send(user[req.params.pictureType])
     } catch (err) {
         res.status(404).send(err.message)
     }
