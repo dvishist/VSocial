@@ -9,7 +9,7 @@ router.get('/self', auth, async (req, res) => {
     res.status(200).send(req.user)
 })
 
-//get others profile
+//get other users' profile
 router.get('/:id', auth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
