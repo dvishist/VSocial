@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const helmet = require('helmet')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const userRouter = require('./routers/userRouter')
 const authRouter = require('./routers/authRouter')
@@ -25,6 +26,7 @@ mongoose.connect(process.env.MONGO_URL, {
 app.use(express.json())
 app.use(helmet())
 app.use(morgan('common'))
+app.use(cors())
 
 //routers
 app.use('/api/users', userRouter)

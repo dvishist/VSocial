@@ -24,11 +24,11 @@ const userSchema = mongoose.Schema({
         reuqired: true,
     },
     profilePicture: {
-        type: String,
+        type: Buffer,
         default: ""
     },
     coverPicture: {
-        type: String,
+        type: Buffer,
         default: ""
     },
     followers: {
@@ -42,6 +42,10 @@ const userSchema = mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    desc: {
+        type: String,
+        max: 60
     },
     tokens: [{
         token: {
