@@ -38,6 +38,21 @@ router.get('/:id', auth, async (req, res) => {
     }
 })
 
+//get all posts by userId
+router.get('/all/:id', auth, async (req, res) => {
+    try {
+        const posts = await Post.find({
+            userId: req.params.id
+        })
+        if (posts)
+            res.status(200).send(posts)
+        else
+            throw new Error('No Posts Found')
+    } catch (err) {
+        res.status(404).send(err.message)
+    }
+})
+
 //update post
 router.patch('/:id', auth, upload.single('image'), async (req, res) => {
     try {
@@ -53,7 +68,6 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
             post.image = buffer
         }
 
-        //save post
         await post.save()
         res.status(200).send(post)
     } catch (err) {
@@ -111,7 +125,7 @@ router.get('/:id/image', async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post) throw new Error('Post Not Found')
-        if (!post.image) throw new Error('Image Does Not Exist')
+        if (!post.image) throw new Error('Image Not Found')
         res.set('Content-Type', 'image/png')
         res.send(post.image)
     } catch (err) {
