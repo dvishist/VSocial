@@ -94,28 +94,12 @@ router.patch('/:id/like', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
 
-        //if like doesn't exist, add like
+        //add or remove like by checking
         if (!post.likes.includes(req.user._id.toString()))
             post.likes.push(req.user._id.toString())
-        await post.save()
-        res.status(200).send(post)
-    } catch (err) {
-        res.status(400).send(err.message)
-    }
-})
-
-//unlike a post
-router.patch('/:id/unlike', auth, async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id)
-        //if post doesn't exist, send error
-        if (!post) throw new Error('Post Not Found')
-        //if like doesn't exist, send error
-        if (!post.likes.includes(req.user._id.toString()))
-            throw new Error('User does not like the post')
-
-        //remove like
-        post.likes = post.likes.filter(id => id !== req.user._id.toString())
+        else {
+            post.likes = post.likes.filter(id => id !== req.user._id.toString())
+        }
         await post.save()
         res.status(200).send(post)
     } catch (err) {
