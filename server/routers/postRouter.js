@@ -29,6 +29,16 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     }
 })
 
+//get post
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        res.status(200).send(post)
+    } catch (err) {
+        res.status(404).send('Post Not Found')
+    }
+})
+
 //update post
 router.patch('/:id', auth, upload.single('image'), async (req, res) => {
     try {
