@@ -29,7 +29,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     }
 })
 
-//create new post
+//update post
 router.patch('/:id', auth, upload.single('image'), async (req, res) => {
     try {
         //find post by id
@@ -52,6 +52,48 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
     }
 })
 
+//delete post
+router.delete('/:id', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        post.remove()
+        res.status(204).send()
+    } catch (err) {
+        res.status(404).send("Post Not Found")
+    }
+})
 
+//like a post
+router.patch('/:id/like', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+
+        //if like doesn't exist, add like
+        if (!post.likes.includes(req.user._id.toString()))
+            post.likes.push(req.user._id.toString())
+        await post.save()
+        res.status(200).send(post)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+//unlike a post
+router.patch('/:id/unlike', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+
+        //if like doesn't exist, send error
+        if (!post.likes.includes(req.user._id.toString()))
+            throw new Error('User does not like the post')
+
+        //remove like
+        post.likes = post.likes.filter(id => id !== req.user._id.toString())
+        await post.save()
+        res.status(200).send(post)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
 
 module.exports = router
