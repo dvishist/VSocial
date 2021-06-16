@@ -8,7 +8,7 @@ router.post('/register', async (req, res) => {
 
     try {
         await user.save()
-        res.status(200).send(user)
+        res.status(201).send(user)
     } catch (err) {
         res.status(400).send(err.message)
     }
