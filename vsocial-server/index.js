@@ -5,11 +5,11 @@ const dotenv = require('dotenv')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const cors = require('cors')
+dotenv.config()
 
 const userRouter = require('./routers/userRouter')
 const authRouter = require('./routers/authRouter')
-
-dotenv.config()
+const postRouter = require('./routers/postRouter')
 
 const port = process.env.PORT
 
@@ -31,6 +31,8 @@ app.use(cors())
 //routers
 app.use('/api/users', userRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/posts', postRouter)
+
 
 app.listen(port, () => {
     console.log('Server is running on Port: ', port)
