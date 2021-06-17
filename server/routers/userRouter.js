@@ -25,9 +25,12 @@ router.get('/timeline', auth, async (req, res) => {
 
         //convert multiple arrays into 1 
         posts = posts.reduce((newArray, array) => newArray.concat(array), [])
+        //get self posts
+        const selfPosts = await Post.find({ userId: user._id.toString() })
+        let allPosts = [...selfPosts, ...posts]
         //sort by latest
-        posts = posts.sort((post1, post2) => post2.createdAt - post1.createdAt)
-        res.status(200).send(posts)
+        allPosts = allPosts.sort((post1, post2) => post2.createdAt - post1.createdAt)
+        res.status(200).send(allPosts)
     } catch (err) {
         res.status(400).send(err.message)
     }
