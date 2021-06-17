@@ -1,12 +1,36 @@
 const router = require('express').Router()
 const auth = require('../middleware/auth')
 const User = require('../models/User')
+const Post = require('../models/Post')
 const upload = require('../middleware/upload')
 const sharp = require('sharp')
 
 //get self profile
 router.get('/self', auth, async (req, res) => {
     res.status(200).send(req.user)
+})
+
+//get timeline
+//NO PAGINATION IMPLEMENTED YET!!! SENDS ALL EXISTING POSTS
+router.get('/timeline', auth, async (req, res) => {
+    try {
+        const user = req.user
+
+        //retrieve list of posts made by following users
+        let posts = await Promise.all(
+            user.following.map(async id => await Post.find({ userId: id }))
+        )
+
+        if (!posts) res.status(404).send("No Posts Found")
+
+        //convert multiple arrays into 1 
+        posts = posts.reduce((newArray, array) => newArray.concat(array), [])
+        //sort by latest
+        posts = posts.sort((post1, post2) => post2.createdAt - post1.createdAt)
+        res.status(200).send(posts)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
 })
 
 //get other users' profile
@@ -117,6 +141,7 @@ router.patch('/:id/unfollow', auth, async (req, res) => {
         res.status(400).send(err.message)
     }
 })
+
 
 
 module.exports = router
