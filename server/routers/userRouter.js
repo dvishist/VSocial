@@ -10,9 +10,9 @@ router.get('/self', auth, async (req, res) => {
     res.status(200).send(req.user)
 })
 
-//get timeline
+//get feed
 //NO PAGINATION IMPLEMENTED YET!!! SENDS ALL EXISTING POSTS
-router.get('/timeline', auth, async (req, res) => {
+router.get('/feed', auth, async (req, res) => {
     try {
         const user = req.user
 
