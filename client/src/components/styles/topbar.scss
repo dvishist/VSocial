@@ -3,6 +3,7 @@
 .container{
     display: flex;
     flex-direction: row;
+    width:100%;
 
     *{
         padding:0.2%;
@@ -13,9 +14,8 @@
         width:25%;
         padding: 0.2%;  
         justify-content: space-around;
-        
+
         .searchBox{
-            width:50;
             height:38px;
             margin-top: 4px;
         }

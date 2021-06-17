@@ -1,0 +1,47 @@
+@import './colors.scss';
+
+.leftbar{
+    flex:3;
+    height:calc(100vh-50px);
+    overflow-y: scroll;
+
+    ::-webkit-scrollbar{
+        width:5px;
+    }
+    ::-webkit-scrollbar-track{
+        background-color: white;
+    }
+    ::-webkit-scrollbar-thumb{
+        background-color: gray;
+    }
+
+    h2{
+        margin:15px;
+        padding: 10px;
+        color: $darkGreen;
+    }
+
+    .leftbarItems{
+        display: flex;
+        flex-direction: column;
+        margin:20px;
+        
+        .follower{
+            margin:5px;
+
+            .label{ 
+                .detail{
+                    width:55%;
+                    background-color: teal;
+                    float: right;
+                }
+
+                span{
+                    width:45%;
+                }
+            }
+        }
+
+    }
+
+}
