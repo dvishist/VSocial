@@ -3,7 +3,7 @@ import Home from './pages/Home'
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { UserContext } from './userContext';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 
 function App() {
@@ -13,9 +13,20 @@ function App() {
     return (
         <Router>
             <UserContext.Provider value={providerUser}>
-                <Route exact path="/" component={Home} />
-                <Route path="/login" component={Login} />
-                <Route path="/signup" component={Signup} />
+                <Switch>
+                    <Route exact path='/'>
+                        <Home />
+                    </Route>
+                    <Route path='/login'>
+                        <Login />
+                    </Route>
+                    <Route path='/signup'>
+                        <Signup />
+                    </Route>
+                    <Route path='/profile/:id'>
+                        <Home />
+                    </Route>
+                </Switch>
             </UserContext.Provider>
         </Router>
     );

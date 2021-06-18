@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Feed,Icon,Image,Segment,Button,Label } from 'semantic-ui-react'
 import '../../styles/feedItem.scss'
 
@@ -12,6 +12,10 @@ export default function FeedItem(props) {
 
         //send like API request
     }
+
+    useEffect(() => {
+        
+    },[])
 
     return (
         <Segment color='teal'>

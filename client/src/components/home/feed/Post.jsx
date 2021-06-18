@@ -7,9 +7,14 @@ import User from '../User'
 export default function Post() {
     const {user} = useContext(UserContext)
 
+    // useEffect(() => {
+        
+    // },[])
+
+
     return (
         <div className = "post">
-            <Segment color='green'>
+            <Segment secondary color='green'>
                 <User userName="Vishist" userImg={userImg} />
                 <br/>
                 <Input style={{width:'80%'}} size='huge' transparent placeholder="What's on your mind..." />

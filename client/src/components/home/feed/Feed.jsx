@@ -1,51 +1,76 @@
 import '../../styles/feed.scss'
 import Post from './Post'
 import FeedItem from './FeedItem'
+import { useContext, useEffect, useState } from 'react'
+import axios from 'axios'
+import relativeDate from 'relative-date'
+import { Loader } from 'semantic-ui-react'
+import { UserContext } from '../../../userContext'
+import { useHistory } from 'react-router-dom'
+const token = localStorage.getItem('token')
 
 export default function Feed() {
+    const {user,setUser} = useContext(UserContext)
+    
+    const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const loadFeed = () => {
+        (async () => {
+            let { data} = await axios.get('/users/feed', {
+                headers: {
+                    'Authorization':`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGM5ZDY1NjQ3MjNjOTNlYjBjN2UzN2EiLCJpYXQiOjE2MjQwMDc1OTl9.iILPEJFKSwV9uA6P4_ezC4Qn-n30sY9m0vFLYsWXjUI`    
+                }
+            })
+
+            data = data.map(async post => {
+                const {data} = await axios.get(`/users/${post.userId}`, {
+                headers: {
+                    'Authorization':`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGM5ZDY1NjQ3MjNjOTNlYjBjN2UzN2EiLCJpYXQiOjE2MjQwMDc1OTl9.iILPEJFKSwV9uA6P4_ezC4Qn-n30sY9m0vFLYsWXjUI`    
+                }
+            })
+                
+                return {
+                    ...post,
+                    user:data
+                }
+            })
+            
+            Promise.all(data).then(data => {
+                setPosts(data)
+                setLoading(false)
+            })
+        })()
+
+    }
+
+    
+
+    useEffect(() => {
+        loadFeed()
+    },[])
+    
     return <div className="feed">
         <Post />
-        <FeedItem
-            user={{
-                username: 'Vishist Dura',
-                profilePicture:'https://scontent-syd2-1.xx.fbcdn.net/v/t1.6435-9/125865340_3482284455195197_383758782487114615_n.jpg?_nc_cat=110&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=FiziL2kWFdwAX_jRCV9&_nc_ht=scontent-syd2-1.xx&oh=4366468ffd95d4b8642b6ea613a5a798&oe=60D01B3D'
-            }}
-
-            post={{
-                description: 'My first Post',
-                likes: 5,
-                createdAt:'5 days ago',
-                image:'https://scontent-syd2-1.xx.fbcdn.net/v/t1.6435-9/185034607_4060566617334640_8044782399079525768_n.jpg?_nc_cat=108&ccb=1-3&_nc_sid=9267fe&_nc_ohc=F-1kIqLXPXUAX-MP7jT&_nc_ht=scontent-syd2-1.xx&oh=e4938f434c2c0046ac0ae2e33b236b0c&oe=60D13058'
-            }}
-            
-        />
-        <FeedItem
-            user={{
-                username: 'Sisan Shrestha',
-                profilePicture:'https://scontent-syd2-1.xx.fbcdn.net/v/t1.6435-9/125865340_3482284455195197_383758782487114615_n.jpg?_nc_cat=110&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=FiziL2kWFdwAX_jRCV9&_nc_ht=scontent-syd2-1.xx&oh=4366468ffd95d4b8642b6ea613a5a798&oe=60D01B3D'
-            }}
-
-            post={{
-                description: 'COde is Poetry',
-                likes: 2,
-                createdAt:'2 days ago',
-                image:'https://p.bigstockphoto.com/GeFvQkBbSLaMdpKXF1Zv_bigstock-Aerial-View-Of-Blue-Lakes-And--227291596.jpg'
-            }}
-            
-        />
-        <FeedItem
-            user={{
-                username: 'New User',
-                profilePicture:'https://scontent-syd2-1.xx.fbcdn.net/v/t1.6435-9/125865340_3482284455195197_383758782487114615_n.jpg?_nc_cat=110&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=FiziL2kWFdwAX_jRCV9&_nc_ht=scontent-syd2-1.xx&oh=4366468ffd95d4b8642b6ea613a5a798&oe=60D01B3D'
-            }}
-
-            post={{
-                description: 'COde is Poetry',
-                likes: 2,
-                createdAt:'2 days ago',
-                // image:'https://p.bigstockphoto.com/GeFvQkBbSLaMdpKXF1Zv_bigstock-Aerial-View-Of-Blue-Lakes-And--227291596.jpg'
-            }}
-            
-        />
+        {
+            loading ?
+                <Loader active>Loading Posts</Loader>
+            :
+            posts.map(post => (
+                <FeedItem
+                    key={post._id}
+                    user={{
+                        username: post.user.username,
+                        profilePicture: process.env.REACT_APP_API_URL + '/users/'+ post.userId +'/profilePicture'
+                    }}
+                    post={{
+                        ...post,
+                        likes: post.likes.length,
+                        image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
+                        createdAt: relativeDate(new Date(post.createdAt))
+                    }}
+                />
+            ))
+        }
     </div>       
 }

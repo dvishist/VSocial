@@ -2,28 +2,28 @@ import React, { useContext, useEffect, useState } from 'react'
 import './styles/login.scss'
 import { Form,Button ,Segment} from 'semantic-ui-react'
 import logo from '../components/icons/icon.png'
-import dotenv from 'dotenv'
 import axios from 'axios'
 import { UserContext } from '../userContext'
+import {useHistory} from 'react-router-dom'
 
-dotenv.config()
-
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
+const token = localStorage.getItem('token')
+axios.defaults.baseURL=process.env.REACT_APP_API_URL
 
 export default function Login(props) {
-    const {user,setUser} = useContext(UserContext)
+    const history = useHistory()
 
-    useEffect(() => {
-        if (user) {
-            props.history.push('/')
-        }    
-    },[])
-    
+    const { user, setUser } = useContext(UserContext)
 
     const [formValues, setFormValues] = useState({
         email: '',
         password:''
     })
+
+    useEffect(() => {
+        if (token) {
+            history.push('/')
+        }
+    },[])
 
     const handleFormChange = (e) => {
         setFormValues(currentValues => ({
@@ -36,9 +36,9 @@ export default function Login(props) {
         e.preventDefault()
         const {data} = await axios.post('/auth/login', formValues)
         if (data) {
-            localStorage.setItem('token', data.token)
-            setUser(data.user)            
-            props.history.push('/')
+            localStorage.setItem('token',data.token)
+            setUser(data.user)
+            history.push('/')
         }
     }
     

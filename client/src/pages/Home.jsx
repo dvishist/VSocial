@@ -6,32 +6,33 @@ import './styles/home.scss'
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../userContext'
 import axios from 'axios'
-
+import { useHistory } from 'react-router-dom'
 axios.defaults.baseURL=process.env.REACT_APP_API_URL
+const token = localStorage.getItem('token')
 
 export default function Home(props) {
     const {user,setUser} = useContext(UserContext)
+    const history = useHistory()
     
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        console.log(token)
-        if (token) {
-            
-            (async() => {
-                const {data} = await axios.get('/users/self', {
+    const verifyUser = async () => {
+        if (!user) {
+            if (token) {
+                const { data } = await axios.get('/users/self', {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization':`Bearer ${token}`
                     }
                 })
+                setUser(data.user)   
+            } else {
+                history.push('/login')
+            }
+        }
+    }
 
-                setUser(data)
-                console.log(data)
-            })()
-        } else {
-            props.history.push('/login')
-        }    
-    },[])
- 
+    useEffect(() => {
+        verifyUser()
+    }, [])
+    
     return <div>
         <Topbar />
         <div className='mainBody'>
