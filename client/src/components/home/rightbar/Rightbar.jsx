@@ -1,7 +1,7 @@
-import '../styles/rightbar.scss'
+import '../../styles/rightbar.scss'
 
 export default function RightBar() {
     return <div className="rightbar">
-        RightBar
+        <h2>Notifications</h2>
     </div>       
 }

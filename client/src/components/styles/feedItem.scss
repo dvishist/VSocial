@@ -1,0 +1,33 @@
+.segment{
+    margin: 25px;
+    width:45vw;    
+
+    .text{
+        margin-left: 55px;
+    } 
+
+    .postImage{
+        width:90%;
+        margin-left:5%;
+        margin-top: 12px;
+    }
+
+    .feedInfo{
+        display:flex;
+        
+        *{
+            margin: 2px;
+        }
+    }
+
+    .description{
+        font-size: 18px;
+    }
+
+    .like{
+        margin:5px;
+        margin-left: 22px;
+    }
+
+    
+}

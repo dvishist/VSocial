@@ -6,7 +6,11 @@ export default function Follower(props) {
             <Label as='a' color='teal' image>
                 <img alt='' src={ props.img} />
                 <span>{props.name}</span>
-                <Label.Detail>{props.type}</Label.Detail>
+                <Label.Detail
+                    style={{
+                        backgroundColor: props.type==='Follower' ? 'darkgreen' : 'limegreen'
+                    }}
+                >{props.type}</Label.Detail>
             </Label>
         </div>
         

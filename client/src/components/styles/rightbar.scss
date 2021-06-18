@@ -1,5 +1,15 @@
+@import '../styles/colors.scss';
+
 .rightbar{
-    flex:3;
-    background-color: blue;
-    height:calc(100vh-50px);
+    flex:2;
+    height:94.4vh;
+    overflow-y:scroll;
+    justify-content: space-around;
+  
+    h2{
+        margin:15px;
+        padding: 10px;
+        color: $darkGreen;
+    }
+
 }

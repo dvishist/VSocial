@@ -1,0 +1,12 @@
+.signupContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top:10%;
+
+    .logo{
+        padding: 30px;
+        align-self: center;
+    }
+
+}

@@ -1,6 +1,39 @@
 .feed{
     flex:6;
-    background-color: green;
-    height:calc(100vh-50px);
+    height:94.4vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    overflow-y: scroll;
+    padding-bottom: 30px;
+    scrollbar-shadow-color: transparent;
+    scrollbar-width: 0px;
 
+    ::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+.post{
+        margin-top: 15px;
+        width:45vw;   
+    
+    .segment{
+
+        span {
+            margin:5px;
+            span{
+                margin-left: 9px;
+                font-size: 20px;
+                font-weight: bold;
+                vertical-align:middle;
+            }
+        
+        }
+
+        .input{
+            margin:25px;
+        }
+    }
 }

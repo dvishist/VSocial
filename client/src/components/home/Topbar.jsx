@@ -1,15 +1,13 @@
 import { Input,Button,Icon} from 'semantic-ui-react'
 import '../styles/topbar.scss'
 import img from '../icons/icon.png'
+import User from './User'
+import userImg from '../icons/user.png'
 
 export default function Topbar() {
     return <div className="container">
         <div className="topbarLeft">
-            <Input
-                className='searchBox'
-                placeholder='Person or Post'                
-            />
-            <Button color="green" >Search</Button>
+            <Input action='Search' placeholder='Person or Post...' />
         </div>
         <div className="topbarCenter">
             <div className='logo'>
@@ -18,13 +16,14 @@ export default function Topbar() {
          </div>
          <div className="topbarRight">
              <Button.Group>
-                <Button inverted color="green">
+                <Button>
                     <Icon name = 'home'></Icon>
                 </Button>
-                <Button inverted color="green" >
+                <Button >
                     <Icon name = 'user'></Icon>
                 </Button>
             </Button.Group>
+            <User userImg={ userImg}/>
         </div>
     </div>
 }
