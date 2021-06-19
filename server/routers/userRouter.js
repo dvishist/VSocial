@@ -60,7 +60,7 @@ router.post('/:pictureType', auth, upload.single('image'), async (req, res) => {
 })
 
 //get profile/Cover Picture
-router.get('/:id/:pictureType', auth, async (req, res) => {
+router.get('/:id/:pictureType', async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
         if (!user) throw new Error('User Not Found')
