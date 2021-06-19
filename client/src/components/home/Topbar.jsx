@@ -1,14 +1,22 @@
-import { Input,Button,Icon} from 'semantic-ui-react'
+import { Input,Button} from 'semantic-ui-react'
 import '../styles/topbar.scss'
 import img from '../icons/icon.png'
 import User from './User'
-import { useHistory } from 'react-router-dom'
+import axios from 'axios'
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 export default function Topbar(props) {
-    const history = useHistory()
-    const logout = () => {
+    
+    const logout = async () => {
+        const token = localStorage.getItem('token')
+        console.log(token)
+        await axios.post('/auth/logout', {},{
+            headers: {
+                'Authorization':`Bearer ${token}`
+            }
+        })
+        window.location = "/login"
         localStorage.removeItem('token')
-        history.push('/login')
     }
     
     return <div className="container">

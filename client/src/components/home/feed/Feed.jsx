@@ -20,7 +20,7 @@ export default function Feed(props) {
                     'Authorization':`Bearer ${token}`
                 }
             })
-
+            
             data = data.map(async post => {
                 const {data} = await axios.get(`/users/${post.userId}`, {
                 headers: {

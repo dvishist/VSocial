@@ -1,16 +1,24 @@
 import React,{useEffect, useState} from 'react'
 import { Feed,Icon,Image,Segment,Button,Label } from 'semantic-ui-react'
 import '../../styles/feedItem.scss'
+import axios from 'axios'
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
+
 
 export default function FeedItem({ user,post}) {
     const [likes, setLikes] = useState(post.likes)
     const [isLiked,setLiked] = useState(false)
     
-    const handleLike = () => {
+    const handleLike = async () => {
+        const token = localStorage.getItem('token')
         setLikes(likes => isLiked ? likes - 1 : likes + 1)
         setLiked(isLiked => !isLiked)
-
-        //send like API request
+        
+        await axios.patch(`/posts/${post._id}/like`, {},{
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        })
     }
 
     useEffect(() => {
