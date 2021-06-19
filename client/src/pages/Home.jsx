@@ -3,18 +3,26 @@ import Rightbar from '../components/home/rightbar/Rightbar'
 import Leftbar from '../components/home/leftbar/Leftbar'
 import Feed from '../components/home/feed/Feed'
 import './styles/home.scss'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../userContext'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
-axios.defaults.baseURL=process.env.REACT_APP_API_URL
-const token = localStorage.getItem('token')
+const imageURL = process.env.REACT_APP_API_URL + '/users'
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
-export default function Home(props) {
+
+
+function isNotMobile() {
+  try{ document.createEvent("TouchEvent"); return false; }
+  catch(e){ return true; }
+}
+
+export default function Home() {
     const {user,setUser} = useContext(UserContext)
     const history = useHistory()
-    
+
     const verifyUser = async () => {
+        const token = localStorage.getItem('token')
         if (!user) {
             if (token) {
                 const { data } = await axios.get('/users/self', {
@@ -22,7 +30,7 @@ export default function Home(props) {
                         'Authorization':`Bearer ${token}`
                     }
                 })
-                setUser(data.user)   
+                setUser(data)
             } else {
                 history.push('/login')
             }
@@ -34,11 +42,11 @@ export default function Home(props) {
     }, [])
     
     return <div>
-        <Topbar />
+        { user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
         <div className='mainBody'>
-            <Leftbar />
+            { isNotMobile && <Leftbar/>}
             <Feed />
-            <Rightbar />
+            { isNotMobile && <Rightbar/>}
         </div>
     </div>
 }

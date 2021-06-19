@@ -1,16 +1,26 @@
 import {Image} from 'semantic-ui-react'
 
 export default function User(props) {
+    
     return (
             <span>
-                <Image size='mini' src={props.userImg} avatar />
+            <button style={{
+                    background: 'none',
+                    color: 'inherit',
+                    border: 'none',
+                    font: 'inherit',
+                    cursor: 'pointer',
+                    outline: 'inherit',
+                }}>
+                    <Image style={{marginTop:'2px'}} size='mini' src={props.userImg} avatar />
+                </button>
                 <span style={{
                     marginLeft: '9px',
                     fontSize: '20px',
                     fontWeight: 'bold',
                     verticalAlign:'middle',
                 }}>
-                    {props.userName}
+                    {props.username}
                 </span>
             </span>
     )

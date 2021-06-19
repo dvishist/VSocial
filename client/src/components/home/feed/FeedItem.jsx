@@ -2,8 +2,8 @@ import React,{useEffect, useState} from 'react'
 import { Feed,Icon,Image,Segment,Button,Label } from 'semantic-ui-react'
 import '../../styles/feedItem.scss'
 
-export default function FeedItem(props) {
-    const [likes, setLikes] = useState(props.post.likes)
+export default function FeedItem({ user,post}) {
+    const [likes, setLikes] = useState(post.likes)
     const [isLiked,setLiked] = useState(false)
     
     const handleLike = () => {
@@ -21,27 +21,27 @@ export default function FeedItem(props) {
         <Segment color='teal'>
             <span className = 'feedInfo'>
                 <Feed.Event>
-                <Image size='mini' src={props.user.profilePicture} avatar />
+                <Image size='mini' src={user.profilePicture} avatar />
                     <span style={{
                         marginLeft: '9px',
                         fontSize: '20px',
                         fontWeight: 'bold',
                         verticalAlign:'middle',
                     }}>
-                    <a href='profile'>{props.user.username}</a>
+                    <a href='profile'>{user.username}</a>
                     
                     </span>
-                    <span>{ props.post.createdAt}</span>
+                    <span>{ post.createdAt}</span>
         
                 </Feed.Event>
                     
             </span>
             <Feed.Content>
                 <Feed.Extra className = 'description' text>
-                    { props.post.description}
+                    { post.description}
                 </Feed.Extra>
                 <Feed.Extra images>
-                    { props.post.image && <img className='postImage' alt='' src={props.post.image} />}
+                    <img className='postImage' alt='' src={post.image} />
                 </Feed.Extra>
                 <div className='like'>
                     <Button as='div' labelPosition='right'>
