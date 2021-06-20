@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/login.scss'
-import { Form,Button ,Segment} from 'semantic-ui-react'
+import { Form,Button ,Segment,Label,Loader} from 'semantic-ui-react'
 import logo from '../components/icons/icon.png'
 import axios from 'axios'
 import { UserContext } from '../userContext'
@@ -11,6 +11,12 @@ axios.defaults.baseURL=process.env.REACT_APP_API_URL
 
 export default function Login(props) {
     const history = useHistory()
+
+    const [validEmail, setValidEmail] = useState(true)
+    const [validPassword,setValidPassword] = useState(true)
+    
+    const [validLogin, setValidLogin] = useState(true)
+    const [loading,setLoading] = useState(false)
 
     const { user, setUser } = useContext(UserContext)
 
@@ -36,17 +42,27 @@ export default function Login(props) {
             ...currentValues,
             [e.target.name] : e.target.value
         }))
+
+        setValidEmail(formValues.email.length > 0)
+        setValidPassword(formValues.password.length > 0)
+        
     }
 
     const submitForm = async (e) => {
+        setValidLogin(true)
+        setLoading(true)
         e.preventDefault()
-        const {data} = await axios.post('/auth/login', formValues)
-        if (data) {
-            localStorage.setItem('token',data.token)
+        try {
+            const { data } = await axios.post('/auth/login', formValues)
+            localStorage.setItem('token', data.token)
             setUser(data.user)
             history.push('/')
+        } catch (err) {
+            setValidLogin(false)
         }
+        setLoading(false)
     }
+        
     
     return (
         <div className='loginContainer'>
@@ -66,6 +82,7 @@ export default function Login(props) {
                                 value={formValues.email}
                                 onChange={handleFormChange}
                             />
+                            {!validEmail ?  <Label color='red' pointing>Please enter an Email!</Label> : null}
                         </Form.Field>
                         <Form.Field>
                             <label>Password</label>
@@ -76,10 +93,13 @@ export default function Login(props) {
                                 value={formValues.password}
                                 onChange={handleFormChange}
                             />
+                            {!validPassword ? <Label color='red' pointing>Please enter a Password!</Label> : null}
+                            {!validLogin ? <Label color='red' pointing basic >Incorrect Email or Password!</Label> : null}
                         </Form.Field>
                         <a href='signup'>Don't have an account? Signup</a><br/><br/>
                         <Button positive type='submit'>Login</Button>
                     </Form>
+                    {loading && <Loader active inline='centered'>Logging In...</Loader>}
                 </Segment>
             </div>
         </div>
