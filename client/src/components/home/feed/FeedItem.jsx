@@ -38,14 +38,14 @@ export default function FeedItem({ postUser,post}) {
         <Segment color='teal'>
             <span className = 'feedInfo'>
                 <Feed.Event>
-                <Image size='mini' src={user.profilePicture} avatar />
+                <Image size='mini' src={postUser.profilePicture} avatar />
                     <span style={{
                         marginLeft: '9px',
                         fontSize: '20px',
                         fontWeight: 'bold',
                         verticalAlign:'middle',
                     }}>
-                    <a href='profile'>{user.username}</a>
+                    <a href='profile'>{postUser.username}</a>
                     
                     </span>
                     <span>{ post.createdAt}</span>

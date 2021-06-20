@@ -2,6 +2,7 @@ import { useState, useMemo, useContext } from 'react';
 import Home from './pages/Home'
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Profile from './pages/Profile'
 import { UserContext } from './userContext';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
@@ -24,7 +25,7 @@ function App() {
                         <Signup />
                     </Route>
                     <Route path='/profile/:id'>
-                        <Home />
+                        <Profile />
                     </Route>
                 </Switch>
             </UserContext.Provider>
