@@ -1,12 +1,15 @@
-import React,{useEffect, useState} from 'react'
+import React,{useContext, useEffect, useState} from 'react'
 import { Feed,Icon,Image,Segment,Button,Label } from 'semantic-ui-react'
 import '../../styles/feedItem.scss'
 import axios from 'axios'
+import { UserContext } from '../../../userContext'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 
-export default function FeedItem({ user,post}) {
-    const [likes, setLikes] = useState(post.likes)
+export default function FeedItem({ postUser,post}) {
+    const {user} = useContext(UserContext)
+    
+    const [likes, setLikes] = useState(post.likes.length)
     const [isLiked,setLiked] = useState(false)
     
     const handleLike = async () => {
@@ -14,15 +17,21 @@ export default function FeedItem({ user,post}) {
         setLikes(likes => isLiked ? likes - 1 : likes + 1)
         setLiked(isLiked => !isLiked)
         
-        await axios.patch(`/posts/${post._id}/like`, {},{
-            headers:{
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        try {
+            await axios.patch(`/posts/${post._id}/like`, {},{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     useEffect(() => {
-        
+        let liked = 0
+        if (user) liked = post.likes.includes(user._id)
+        setLiked(liked)
     },[])
 
     return (
@@ -60,7 +69,7 @@ export default function FeedItem({ user,post}) {
                             }
                             
                         </Button>
-                        <Label as='a' onClick={ () => console.log('show likes')} basic >
+                        <Label basic >
                             {likes} Likes
                         </Label>
                     </Button>

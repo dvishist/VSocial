@@ -13,12 +13,16 @@ export default function Post(props) {
     const verifyUser = async () => {
         if (!user) {
             if (token) {
-                const { data } = await axios.get('/users/self', {
-                    headers: {
-                        'Authorization':`Bearer ${token}`
-                    }
-                })
-                setUser(data)
+                try {
+                    const { data } = await axios.get('/users/self', {
+                        headers: {
+                            'Authorization':`Bearer ${token}`
+                        }
+                    })
+                    setUser(data)
+                } catch (err) {
+                    console.log(err)
+                }
             } 
         }
     }

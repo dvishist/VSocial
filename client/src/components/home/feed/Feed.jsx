@@ -56,13 +56,13 @@ export default function Feed(props) {
                     posts.map(post => (
                         <FeedItem
                             key={post._id}
-                            user={{
+                            postUser={{
                                 username: post.user.username,
                                 profilePicture: process.env.REACT_APP_API_URL + '/users/'+ post.userId +'/profilePicture'
                             }}
                             post={{
                                 ...post,
-                                likes: post.likes.length,
+                                likes: post.likes,
                                 image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
                                 createdAt: relativeDate(new Date(post.createdAt))
                             }}

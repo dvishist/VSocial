@@ -35,6 +35,10 @@ export default function Login(props) {
                 history.push('/')
             })
         }
+
+        return () => {
+            
+        }
     },[])
 
     const handleFormChange = (e) => {
