@@ -7,7 +7,6 @@ const userSchema = mongoose.Schema({
     username: {
         type: String,
         require: true,
-        unique: true,
         trim: true
     },
     email: {
@@ -43,7 +42,7 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    desc: {
+    description: {
         type: String,
         max: 60
     },
