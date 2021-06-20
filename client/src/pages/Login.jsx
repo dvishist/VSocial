@@ -21,7 +21,13 @@ export default function Login(props) {
 
     useEffect(() => {
         if (token) {
-            history.push('/')
+            axios.get('/users/self', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(data => {
+                history.push('/')
+            })
         }
     },[])
 

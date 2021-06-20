@@ -25,12 +25,17 @@ export default function Home() {
         const token = localStorage.getItem('token')
         if (!user) {
             if (token) {
-                const { data } = await axios.get('/users/self', {
-                    headers: {
-                        'Authorization':`Bearer ${token}`
-                    }
-                })
-                setUser(data)
+                try {
+                    const { data } = await axios.get('/users/self', {
+                        headers: {
+                            'Authorization':`Bearer ${token}`
+                        }
+                    })
+                    setUser(data)
+                } catch (err) {
+                    localStorage.removeItem('token')
+                    history.push('/login')
+                }
             } else {
                 history.push('/login')
             }

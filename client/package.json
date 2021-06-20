@@ -17,6 +17,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "time-greeting": "^1.0.2",
+    "validator": "^13.6.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
