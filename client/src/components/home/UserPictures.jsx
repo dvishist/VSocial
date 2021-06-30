@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import '../styles/userPictures.scss'
-import {Segment} from 'semantic-ui-react'
 
 export default function UserPictures({userId}) {
     const profile = process.env.REACT_APP_API_URL + '/users/' + userId + '/profilePicture'

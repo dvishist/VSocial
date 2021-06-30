@@ -104,20 +104,26 @@ export default function Home() {
         <UserPictures userId={profileUser && profileUser._id} />
         <div className='profileBody'>
             <h2>{ profileUser && profileUser.username}</h2>
-            <Button
-                className='followButton'
-                color={following ? 'gray' : 'twitter'}
-                onClick={followHandle}
-            >
-                {following ? 'Unfollow' : 'Follow'}
-            </Button>
+            
+            {
+                (profileUser && profileUser._id) !== (user && user._id) &&
+                <Button
+                    className='followButton'
+                    color={following ? 'gray' : 'twitter'}
+                    onClick={followHandle}
+                >
+                    {following ? 'Unfollow' : 'Follow'}
+                </Button>
+            }
             <br/><br/>
             {loading ?
                 <Dimmer active>
                     <Loader active>Loading Posts</Loader>
                 </Dimmer>
                 
-                : profileUser && posts && posts.map(post => <FeedItem
+                :
+                posts.length > 0 ?
+                    profileUser && posts && posts.map(post => <FeedItem
                     key={post._id}
                     postUser={{
                         username: profileUser.username,
@@ -129,7 +135,8 @@ export default function Home() {
                                 image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
                                 createdAt: relativeDate(new Date(post.createdAt))
                     }}
-                />)
+                    />)
+                   : <h5>User hasn't posted yet.</h5>    
             }
         </div>
     </div>
