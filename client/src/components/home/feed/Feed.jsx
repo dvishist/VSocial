@@ -57,6 +57,7 @@ export default function Feed(props) {
                         <FeedItem
                             key={post._id}
                             postUser={{
+                                id:post.user._id,
                                 username: post.user.username,
                                 profilePicture: process.env.REACT_APP_API_URL + '/users/'+ post.userId +'/profilePicture'
                             }}

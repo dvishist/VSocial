@@ -4,14 +4,42 @@ import img from '../icons/icon.png'
 import User from './User'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { UserContext } from '../../userContext'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 export default function Topbar(props) {
     const history = useHistory()
+    const {user,setUser} = useContext(UserContext)
+
+    const verifyUser = async () => {
+        const token = localStorage.getItem('token')
+        if (!user) {
+            if (token) {
+                try {
+                    const { data } = await axios.get('/users/self', {
+                        headers: {
+                            'Authorization':`Bearer ${token}`
+                        }
+                    })
+                    setUser(data)
+                } catch (err) {
+                    localStorage.removeItem('token')
+                    history.push('/login')
+                }
+            } else {
+                history.push('/login')
+            }
+        }
+    }
+
+    useEffect(() => {
+        verifyUser()
+    }, [])
+
 
     const logout = async () => {
         const token = localStorage.getItem('token')
-        console.log(token)
         await axios.post('/auth/logout', {},{
             headers: {
                 'Authorization':`Bearer ${token}`
@@ -44,7 +72,7 @@ export default function Topbar(props) {
             </div>
          </div>
          <div className="topbarRight">
-            <User userImg={props.userImg} />
+            <User userId={user._id} userImg={props.userImg} />
             <Button basic color='green' onClick={logout}>Logout</Button>
         </div>
     </div>

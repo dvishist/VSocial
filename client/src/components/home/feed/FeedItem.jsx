@@ -45,7 +45,7 @@ export default function FeedItem({ postUser,post}) {
                         fontWeight: 'bold',
                         verticalAlign:'middle',
                     }}>
-                    <a href='profile'>{postUser.username}</a>
+                    <a href={`profile/?id=${postUser.id}`}>{postUser.username}</a>
                     
                     </span>
                     <span>{ post.createdAt}</span>

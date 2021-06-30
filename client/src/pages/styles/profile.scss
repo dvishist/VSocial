@@ -1,9 +1,13 @@
+.timelineBody{
+    overflow-y:scroll
+}
+
 .profileBody{
     display: flex;
     flex-direction: column;
-    margin-top: 10%;
+    margin-top: 100px;
     padding: 0%;
-
+    
     .segment{
         width: 50%;
         margin-left: 25%;
@@ -13,6 +17,11 @@
     h2{
         align-self: center;
         margin-top: -10;
+    }
+
+    .followButton{
+        width:300px;
+        align-self: center;
     }
 
 }

@@ -35,10 +35,9 @@ export default function Post(props) {
         <div className = "post">
             <Segment secondary >
                 {
-                    
                     user &&
                     <>
-                        <User username={user.username} userImg={imageURL + '/' + user._id + '/profilePicture'} />
+                        <User userId={user._id} username={user.username} userImg={imageURL + '/' + user._id + '/profilePicture'} />
                         <br/>
                         <Input style={{ width: '80%' }} size='huge' transparent placeholder={timeGreeting()+ " " + user.username.split(" ")[0]+",   What's on your mind..."} />            
                     </>

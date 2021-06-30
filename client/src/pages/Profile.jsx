@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import FeedItem from '../components/home/feed/FeedItem'
 import relativeDate from 'relative-date'
-import { Loader,Button } from 'semantic-ui-react'
+import { Dimmer, Loader,Button } from 'semantic-ui-react'
 const imageURL = process.env.REACT_APP_API_URL + '/users'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
@@ -17,7 +17,22 @@ export default function Home() {
     const [posts, setPosts] = useState([])
     const [profileUser, setProfileUser] = useState(null)
     const [loading,setLoading] = useState(false)
-    
+    const [following, setFollowing] = useState(false)
+
+    const followHandle = () => {
+        const token = localStorage.getItem('token')
+        const action = following ? 'unfollow' : 'follow'
+
+        axios.patch(`/users/${profileUser._id}/${action}`, {}, {
+            headers: {
+                'Authorization':`Bearer ${token}`
+            }
+        })
+        setFollowing(following => !following)
+        
+    }
+
+
     const verifyUser = async (id) => {
         const token = localStorage.getItem('token')
         if (!user) {
@@ -29,6 +44,7 @@ export default function Home() {
                         }
                     })
                     setUser(data)
+                    setFollowing ((data.following.find(user => user===id)) ? true : false)
                     fetchPosts(id,token)
                 } catch (err) {
                     localStorage.removeItem('token')
@@ -83,14 +99,24 @@ export default function Home() {
         
     }, [])
     
-    return <div>
+    return <div className='timelineBody'>
         {user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
         <UserPictures userId={profileUser && profileUser._id} />
         <div className='profileBody'>
-            <Button positive>Follow</Button>
             <h2>{ profileUser && profileUser.username}</h2>
+            <Button
+                className='followButton'
+                color={following ? 'gray' : 'twitter'}
+                onClick={followHandle}
+            >
+                {following ? 'Unfollow' : 'Follow'}
+            </Button>
+            <br/><br/>
             {loading ?
-                <Loader active>Loading Posts</Loader>
+                <Dimmer active>
+                    <Loader active>Loading Posts</Loader>
+                </Dimmer>
+                
                 : profileUser && posts && posts.map(post => <FeedItem
                     key={post._id}
                     postUser={{

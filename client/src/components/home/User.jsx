@@ -16,7 +16,7 @@ export default function User(props) {
                     outline: 'inherit',
                 }}
 
-                onClick={()=>{history.push('/profile/asd')}}
+                onClick={()=>{window.location = `/profile/?id=${props.userId}`}}
             >
                     <Image style={{marginTop:'2px'}} size='mini' src={props.userImg} avatar />
                 </button>
