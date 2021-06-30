@@ -4,6 +4,7 @@ const User = require('../models/User')
 const Post = require('../models/Post')
 const upload = require('../middleware/upload')
 const sharp = require('sharp')
+const jo = require('jpeg-autorotate')
 
 //get self profile
 router.get('/self', auth, async (req, res) => {
@@ -52,7 +53,8 @@ router.post('/:pictureType', auth, upload.single('image'), async (req, res) => {
         const user = req.user
         const dimensions = req.params.pictureType === 'profilePicture' ? [500, 500] : [900, 290]
         const [width, height] = dimensions
-        const buffer = await sharp(req.file.buffer).resize({ width, height }).png().toBuffer()
+        const rotated = await jo.rotate(req.file.buffer)
+        const buffer = await sharp(rotated.buffer).resize({ width, height }).png().toBuffer()
         user[req.params.pictureType] = buffer
         await user.save()
         res.status(201).send(user)
