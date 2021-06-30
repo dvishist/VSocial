@@ -5,19 +5,29 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import relativeDate from 'relative-date'
 import { Loader } from 'semantic-ui-react'
+const token = localStorage.getItem('token')
 
 export default function Feed(props) {
     
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
 
-    const addPost = (post) => {
-        setPosts(posts => [post, ...posts])
+    const addPost = async (post) => {
+        const { data } = await axios.get(`/users/${post.userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        
+        const newPost = {
+            ...post,
+            user: data
+        }
+        setPosts(posts => [newPost, ...posts])
     }
 
     const loadFeed = () => {
         (async () => {
-            const token = localStorage.getItem('token')
 
             let { data} = await axios.get('/users/feed', {
                 headers: {
@@ -51,7 +61,7 @@ export default function Feed(props) {
     },[])
     
     return <div className="feed">
-        <Post />
+        <Post addPost={ addPost}/>
         {
             loading ?
                 <Loader active>Loading Posts</Loader>
