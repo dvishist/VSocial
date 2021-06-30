@@ -33,7 +33,7 @@ export default function Post(props) {
 
     return (
         <div className = "post">
-            <Segment secondary color='pink'>
+            <Segment secondary >
                 {
                     
                     user &&

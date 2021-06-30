@@ -24,7 +24,7 @@ function App() {
                     <Route path='/signup'>
                         <Signup />
                     </Route>
-                    <Route path='/profile/:id'>
+                    <Route path='/profile'>
                         <Profile />
                     </Route>
                 </Switch>

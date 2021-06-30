@@ -3,10 +3,12 @@ import '../styles/topbar.scss'
 import img from '../icons/icon.png'
 import User from './User'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 export default function Topbar(props) {
-    
+    const history = useHistory()
+
     const logout = async () => {
         const token = localStorage.getItem('token')
         console.log(token)
@@ -25,14 +27,19 @@ export default function Topbar(props) {
         </div>
         <div className="topbarCenter">
             <div className='logo'>
-                <button style={{
+                <button
+                    style={{
                     background: 'none',
                     color: 'inherit',
                     border: 'none',
                     font: 'inherit',
                     cursor: 'pointer',
                     outline: 'inherit',
-                }}><h1> <img alt="V" src={img} height='33' width='33'></img>Social</h1>
+                }}
+                    onClick={()=>{history.push('/')}}
+                    
+                >
+                    <h1> <img alt="V" src={img} height='33' width='33'></img>Social</h1>
                 </button>
             </div>
          </div>
