@@ -3,6 +3,7 @@ const auth = require('../middleware/auth')
 const upload = require('../middleware/upload')
 const Post = require('../models/Post')
 const sharp = require('sharp')
+const jo = require('jpeg-autorotate')
 
 //create new post
 router.post('/', auth, upload.single('image'), async (req, res) => {
@@ -15,8 +16,13 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 
         //if image is uploaded, add image to the post
         if (req.file) {
-            const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
-            postObj.image = buffer
+            try {
+                const rotated = await jo.rotate(req.file.buffer)
+                const buffer = await sharp(rotated.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+                postObj.image = buffer
+            } catch (err) {
+                console.log(err)
+            }
         }
 
         //create and save new post
@@ -65,6 +71,7 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
         //if image is uploaded, add/overwrite image to the post
         if (req.file) {
             const buffer = await sharp(req.file.buffer).resize({ width: 500, height: 500 }).png().toBuffer()
+
             post.image = buffer
         }
 
