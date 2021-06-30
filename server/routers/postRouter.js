@@ -64,7 +64,7 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
 
         //if image is uploaded, add/overwrite image to the post
         if (req.file) {
-            const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+            const buffer = await sharp(req.file.buffer).resize({ width: 500, height: 500 }).png().toBuffer()
             post.image = buffer
         }
 

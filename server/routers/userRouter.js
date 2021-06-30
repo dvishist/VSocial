@@ -50,7 +50,9 @@ router.get('/:id', auth, async (req, res) => {
 router.post('/:pictureType', auth, upload.single('image'), async (req, res) => {
     try {
         const user = req.user
-        const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+        const dimensions = req.params.pictureType === 'profilePicture' ? [500, 500] : [900, 290]
+        const [width, height] = dimensions
+        const buffer = await sharp(req.file.buffer).resize({ width, height }).png().toBuffer()
         user[req.params.pictureType] = buffer
         await user.save()
         res.status(201).send(user)
