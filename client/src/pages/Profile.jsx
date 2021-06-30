@@ -6,23 +6,18 @@ import { UserContext } from '../userContext'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import FeedItem from '../components/home/feed/FeedItem'
+import relativeDate from 'relative-date'
+import { Loader,Button } from 'semantic-ui-react'
 const imageURL = process.env.REACT_APP_API_URL + '/users'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
-
-
-function isNotMobile() {
-  try{ document.createEvent("TouchEvent"); return false; }
-  catch(e){ return true; }
-}
-
-export default function Profile() {
+export default function Home() {
     const {user,setUser} = useContext(UserContext)
     const history = useHistory()
     const [posts, setPosts] = useState([])
-    const [loading,setLoading] = useState(true)
     const [profileUser, setProfileUser] = useState(null)
-
+    const [loading,setLoading] = useState(false)
+    
     const verifyUser = async (id) => {
         const token = localStorage.getItem('token')
         if (!user) {
@@ -52,30 +47,36 @@ export default function Profile() {
                     'Authorization':`Bearer ${token}`
                 }
             })
-            setPosts(res.data)
-            console.log(res.data)
+
+            const sorted = res.data.reverse()
+            setPosts(sorted)
+            setLoading(false)
         } catch (err) {
             console.log(err)
+            setLoading(false)
         }
-
-        
     }
 
 
     useEffect(() => {
-        
+        setLoading(true)
         const fetchData = async () => {
             const token = localStorage.getItem('token')
             const params = new URLSearchParams(window.location.search)
             const id = Object.fromEntries(params.entries()).id
-            const res = await axios.get(`/users/${id}`, {
-                        headers: {
-                            'Authorization':`Bearer ${token}`
-                        }
-                    })
-            
-            setProfileUser(res.data)
-            verifyUser(id)
+            try {
+                const res = await axios.get(`/users/${id}`, {
+                            headers: {
+                                'Authorization':`Bearer ${token}`
+                            }
+                        })
+                verifyUser(id)
+                setProfileUser(res.data)
+            } catch (err) {
+                localStorage.removeItem('token')
+                history.push('/login')
+            }
+           
         }
 
         fetchData()
@@ -84,10 +85,25 @@ export default function Profile() {
     
     return <div>
         {user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
-        <UserPictures userId={ user && user._id}/>
-        <div className='mainBody'>
-            {
-               posts.map(post =>  <FeedItem postUser={ profileUser} post={ post}/>)
+        <UserPictures userId={profileUser && profileUser._id} />
+        <div className='profileBody'>
+            <Button positive>Follow</Button>
+            <h2>{ profileUser && profileUser.username}</h2>
+            {loading ?
+                <Loader active>Loading Posts</Loader>
+                : profileUser && posts && posts.map(post => <FeedItem
+                    key={post._id}
+                    postUser={{
+                        username: profileUser.username,
+                        profilePicture: process.env.REACT_APP_API_URL + '/users/'+ profileUser._id +'/profilePicture'
+                    }}
+                    post={{
+                        ...post,
+                                likes: post.likes,
+                                image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
+                                createdAt: relativeDate(new Date(post.createdAt))
+                    }}
+                />)
             }
         </div>
     </div>
