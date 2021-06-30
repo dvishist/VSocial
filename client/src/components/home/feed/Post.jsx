@@ -44,11 +44,13 @@ export default function Post(props) {
                 }
                 
                 <br/>
-                <Button animated>
-                    <Button.Content hidden>Photo</Button.Content>
+                <Button className='uploadButton' animated>
+                    <Button.Content hidden>
+                        <input type='file' name='uploadImage' id='uploadImage' accept='image/png, image/jpeg' ></input>
+                    </Button.Content>
                     <Button.Content visible>
                         <Icon name='photo' />
-                </Button.Content>
+                    </Button.Content>
                 </Button>
                 <Button positive>POST</Button>
             </Segment>

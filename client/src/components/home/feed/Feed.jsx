@@ -11,6 +11,10 @@ export default function Feed(props) {
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const addPost = (post) => {
+        setPosts(posts => [post, ...posts])
+    }
+
     const loadFeed = () => {
         (async () => {
             const token = localStorage.getItem('token')
