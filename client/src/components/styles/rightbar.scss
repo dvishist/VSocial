@@ -1,4 +1,9 @@
 @import '../styles/colors.scss';
+@media only screen and (max-width: 1026px) {
+    .rightbar {
+        display: none;
+    }
+}
 
 .rightbar{
     flex:2;

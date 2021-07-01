@@ -1,24 +1,14 @@
-import { useHistory } from 'react-router-dom'
 import {Image} from 'semantic-ui-react'
 
 export default function User(props) {
 
     return (
             <span>
-            <button
-                style={{
-                    background: 'none',
-                    color: 'inherit',
-                    border: 'none',
-                    font: 'inherit',
-                    cursor: 'pointer',
-                    outline: 'inherit',
-                }}
-
-                onClick={()=>{window.location = `/profile/?id=${props.userId}`}}
-            >
+                <a
+                    href={`/profile/?id=${props.userId}`}
+                >
                     <Image style={{marginTop:'2px'}} size='mini' src={props.userImg} avatar />
-                </button>
+                </a>
                 <span style={{
                     marginLeft: '9px',
                     fontSize: '20px',

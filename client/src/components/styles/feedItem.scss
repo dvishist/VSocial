@@ -1,6 +1,7 @@
 .segment{
     margin: 25px;
     width:45vw;    
+    height: max-content;
 
     .text{
         margin-left: 55px;
@@ -23,6 +24,7 @@
     .description{
         margin-top: 10px;
         font-size: 18px;
+        white-space: pre-wrap;
     }
 
     .like{

@@ -1,5 +1,4 @@
-import { useEffect,useContext, useState } from 'react'
-import { UserContext } from '../../../userContext'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../../styles/leftbar.scss'
 import Follower from './Follower'

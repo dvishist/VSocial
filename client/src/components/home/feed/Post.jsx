@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Segment,Input,Button,Icon, Loader} from 'semantic-ui-react'
+import { Segment,TextArea,Button,Icon, Loader} from 'semantic-ui-react'
 import { UserContext } from '../../../userContext'
 import User from '../User'
 import axios from 'axios'
@@ -69,11 +69,9 @@ export default function Post(props) {
                     <>
                         <User userId={user._id} username={user.username} userImg={imageURL + '/' + user._id + '/profilePicture'} />
                         <br/>
-                        <Input
+                        <TextArea
+                            className = 'postText'
                             value={postText}
-                            style={{ width: '80%' }}
-                            size='huge'
-                            transparent
                             placeholder={timeGreeting() + " " + user.username.split(" ")[0] + ",   What's on your mind..."}
                             onChange={e => { setPostText(e.target.value)}}
                         />

@@ -1,12 +1,16 @@
 @import './colors.scss';
 
-  
-      
-    ::-webkit-scrollbar {
-           -webkit-appearance: none;
-        height: 10px;
-        width: 5px;
+@media only screen and (max-width: 1026px) {
+    .leftbar {
+        display: none;
     }
+}  
+    
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    height: 10px;
+    width: 5px;
+ }
 
 
 

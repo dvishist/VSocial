@@ -55,7 +55,7 @@ export default function FeedItem({ postUser,post}) {
             </span>
             <Feed.Content>
                 <Feed.Extra className = 'description' text>
-                    { post.description}
+                        {post.description}
                 </Feed.Extra>
                 <Feed.Extra images>
                     <img className='postImage' alt='' src={post.image} />
