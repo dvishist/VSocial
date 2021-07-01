@@ -39,26 +39,27 @@ export default function Post(props) {
         setLoading(false)
     }
 
-    const verifyUser = async () => {
-        if (!user) {
-            if (token) {
-                try {
-                    const { data } = await axios.get('/users/self', {
-                        headers: {
-                            'Authorization':`Bearer ${token}`
-                        }
-                    })
-                    setUser(data)
-                } catch (err) {
-                    console.log(err)
-                }
-            } 
-        }
-    }
+    
 
     useEffect(() => {
+        const verifyUser = async () => {
+            if (!user) {
+                if (token) {
+                    try {
+                        const { data } = await axios.get('/users/self', {
+                            headers: {
+                                'Authorization':`Bearer ${token}`
+                            }
+                        })
+                        setUser(data)
+                    } catch (err) {
+                        console.log(err)
+                    }
+                } 
+            }
+        }
         verifyUser()
-    }, [])
+    }, [user,setUser])
 
     return (
         <div className = "post">

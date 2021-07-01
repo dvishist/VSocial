@@ -2,7 +2,6 @@ import { useHistory } from 'react-router-dom'
 import {Image} from 'semantic-ui-react'
 
 export default function User(props) {
-    const history = useHistory()
 
     return (
             <span>
