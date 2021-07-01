@@ -53,9 +53,9 @@ export default function Login(props) {
     }
 
     const submitForm = async (e) => {
+        e.preventDefault()
         setValidLogin(true)
         setLoading(true)
-        e.preventDefault()
         try {
             const { data } = await axios.post('/auth/login', formValues)
             localStorage.setItem('token', data.token)

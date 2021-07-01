@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../../styles/leftbar.scss'
 import Follower from './Follower'
-const token = localStorage.getItem('token')
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 const imageURL = process.env.REACT_APP_API_URL + '/users'
 
 export default function Leftbar({user}) {
     const [followers, setFollowers] = useState([])
     const [followings, setFollowings] = useState([])
+    const token = localStorage.getItem('token')
     
+
     useEffect(() => {
         const followingList = user.following.map( async id => {
             const { data } = await axios.get(`/users/${id}`, {
