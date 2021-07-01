@@ -17,10 +17,12 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
         //if image is uploaded, add image to the post
         if (req.file) {
             try {
+                //rotate to correct orientation
                 const rotated = await jo.rotate(req.file.buffer)
                 const buffer = await sharp(rotated.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
                 postObj.image = buffer
             } catch (err) {
+                //if orientation tag doesn't exist on EXIF, use default image
                 if (err.message === 'No orientation tag found in EXIF') {
                     const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
                     postObj.image = buffer
@@ -73,6 +75,7 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
 
         //if image is uploaded, add/overwrite image to the post
         if (req.file) {
+            //rotate to correct orientation
             const rotated = await jo.rotate(req.file.buffer)
             const buffer = await sharp(rotated.buffer).resize({ width: 500, height: 500 }).png().toBuffer()
             post.image = buffer
@@ -81,6 +84,7 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
         await post.save()
         res.status(200).send(post)
     } catch (err) {
+        //if orientation tag doesn't exist on EXIF, use default image
         if (err.message === 'No orientation tag found in EXIF') {
             const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
             postObj.image = buffer
