@@ -6,6 +6,21 @@ const upload = require('../middleware/upload')
 const sharp = require('sharp')
 const jo = require('jpeg-autorotate')
 
+
+//get all users
+router.get('/all', auth, async (req, res) => {
+    try {
+        const users = await User.find({})
+        const results = users.map(user => ({
+            id: user._id,
+            username: user.username
+        }))
+        res.status(200).send(results)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
+
 //get self profile
 router.get('/self', auth, async (req, res) => {
     res.status(200).send(req.user)
