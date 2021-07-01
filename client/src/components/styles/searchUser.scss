@@ -1,0 +1,24 @@
+.search{
+    background-color: transparent;
+
+    .result{
+        background-color: white;
+
+        .content{
+            padding: 0;
+        }
+
+        .title{
+            padding-top: 10%;
+            padding-bottom: 10%;
+            padding-left: 10%;
+            box-shadow:none;
+            background-color: white;
+        }
+
+        .image img{
+            border-radius: 25px;
+            background-color: transparent;
+        }
+    }
+}

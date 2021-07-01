@@ -1,5 +1,3 @@
-import {Label} from 'semantic-ui-react'
-
 export default function Follower(props) {
     return (
         <div className="follower">
@@ -13,6 +11,5 @@ export default function Follower(props) {
                 }}
             >{props.type}</label>
         </div>
-        
     )
 }

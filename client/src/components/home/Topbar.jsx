@@ -1,4 +1,4 @@
-import { Input,Button} from 'semantic-ui-react'
+import { Button} from 'semantic-ui-react'
 import '../styles/topbar.scss'
 import img from '../icons/icon.png'
 import User from './User'
@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../../userContext'
+import SearchUser from './SearchUser'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 export default function Topbar(props) {
@@ -51,7 +52,7 @@ export default function Topbar(props) {
     
     return <div className="container">
         <div className="topbarLeft">
-            <Input action='Search' placeholder='Person or Post...' />
+            <SearchUser/>
         </div>
         <div className="topbarCenter">
             <div className='logo'>
