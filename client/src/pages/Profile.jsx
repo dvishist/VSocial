@@ -89,55 +89,58 @@ export default function Home() {
                 verifyUser(id)
                 setProfileUser(res.data)
             } catch (err) {
-                localStorage.removeItem('token')
-                history.push('/login')
+                verifyUser(id)
+                setProfileUser('None')
             }
-           
+           setLoading(false)
         }
-
         fetchData()
-        
     }, [])
     
-    return <div className='timelineBody'>
-        {user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
-        <UserPictures userId={profileUser && profileUser._id} />
-        <div className='profileBody'>
-            <h2>{ profileUser && profileUser.username}</h2>
-            
-            {
-                (profileUser && profileUser._id) !== (user && user._id) &&
-                <Button
-                    className='followButton'
-                    color={following ? 'gray' : 'twitter'}
-                    onClick={followHandle}
-                >
-                    {following ? 'Unfollow' : 'Follow'}
-                </Button>
-            }
-            <br/><br/>
-            {loading ?
-                <Dimmer active>
-                    <Loader active>Loading Posts</Loader>
-                </Dimmer>
-                
-                :
-                posts.length > 0 ?
-                    profileUser && posts && posts.map(post => <FeedItem
-                    key={post._id}
-                    postUser={{
-                        username: profileUser.username,
-                        profilePicture: process.env.REACT_APP_API_URL + '/users/'+ profileUser._id +'/profilePicture'
-                    }}
-                    post={{
-                        ...post,
-                                likes: post.likes,
-                                image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
-                                createdAt: relativeDate(new Date(post.createdAt))
-                    }}
-                    />)
-                   : <h5>User hasn't posted yet.</h5>    
-            }
+    return profileUser === 'None' ?
+        <div>
+            {user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
+            <h2>Error 404! Profile Not Found.</h2>
         </div>
-    </div>
+        : <div className='timelineBody'>
+            {user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
+            <UserPictures userId={profileUser && profileUser._id} />
+            
+            <div className='profileBody'>
+                <h2>{ profileUser && profileUser.username}</h2>
+                {
+                    (profileUser && profileUser._id) !== (user && user._id) &&
+                    <Button
+                        className='followButton'
+                        color={following ? 'gray' : 'twitter'}
+                        onClick={followHandle}
+                    >
+                        {following ? 'Unfollow' : 'Follow'}
+                    </Button>
+                }
+                <br/><br/>
+                {loading ?
+                    <Dimmer active>
+                        <Loader active>Loading Posts</Loader>
+                    </Dimmer>
+                    
+                    :
+                    posts.length > 0 ?
+                        profileUser && posts && posts.map(post => <FeedItem
+                        key={post._id}
+                        postUser={{
+                            username: profileUser.username,
+                            profilePicture: process.env.REACT_APP_API_URL + '/users/'+ profileUser._id +'/profilePicture'
+                        }}
+                        post={{
+                            ...post,
+                                    likes: post.likes,
+                                    image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
+                                    createdAt: relativeDate(new Date(post.createdAt))
+                        }}
+                        />)
+                    : <h5>User hasn't posted yet.</h5>    
+                }
+            </div>
+        </div>
 }
