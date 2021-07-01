@@ -9,6 +9,7 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 const imageURL = process.env.REACT_APP_API_URL + '/users'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
+const token = localStorage.getItem('token')
 
 
 
@@ -22,7 +23,6 @@ export default function Home() {
     const history = useHistory()
 
     const verifyUser = async () => {
-        const token = localStorage.getItem('token')
         if (!user) {
             if (token) {
                 try {
@@ -49,7 +49,7 @@ export default function Home() {
     return <div>
         { user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
         <div className='mainBody'>
-            { isNotMobile && <Leftbar/>}
+            {isNotMobile && user && <Leftbar user={ user}/>}
             <Feed />
             { isNotMobile && <Rightbar/>}
         </div>

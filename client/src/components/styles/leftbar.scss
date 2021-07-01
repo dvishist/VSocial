@@ -25,22 +25,46 @@
     .leftbarItems{
         display: flex;
         flex-direction: column;
-        margin-left:80px;
-        
-        
-        
+        padding: 5%;
+        color:white;
+
+        h3{
+            color: $darkGreen;
+        }
+
         .follower{
             margin:5px;
+            padding: 3px;
+            background-color: $darkBlue;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            border-radius: 25px;
+            padding: 2%;
 
-            .label{ 
-                .detail{
-                    width:55%;
-                    float: right;
-                }
+            a{
+                display: flex;
+                color:white;
+                justify-content: space-between;
 
                 span{
-                    width:45%;
+                    padding-top: 10px;
+                    padding-left: 20px;
                 }
+
+                img{
+                    width:40px;
+                    height:40px;
+                    border-radius: 25px;
+                }
+            }
+
+            label{ 
+                border-radius: 25px;
+                width: 80px;
+                display: flex;
+                justify-content: center;
+                padding-top: 10px;
             }
         }
 

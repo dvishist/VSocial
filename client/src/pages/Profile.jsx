@@ -112,7 +112,7 @@ export default function Home() {
                     (profileUser && profileUser._id) !== (user && user._id) &&
                     <Button
                         className='followButton'
-                        color={following ? 'gray' : 'twitter'}
+                        color={following ? 'grey' : 'twitter'}
                         onClick={followHandle}
                     >
                         {following ? 'Unfollow' : 'Follow'}
