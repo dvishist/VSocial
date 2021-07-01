@@ -46,10 +46,8 @@ export default function Login(props) {
             ...currentValues,
             [e.target.name] : e.target.value
         }))
-
         setValidEmail(formValues.email.length > 0)
         setValidPassword(formValues.password.length > 0)
-        
     }
 
     const submitForm = async (e) => {
@@ -86,7 +84,7 @@ export default function Login(props) {
                                 value={formValues.email}
                                 onChange={handleFormChange}
                             />
-                            {!validEmail ?  <Label color='red' pointing>Please enter an Email!</Label> : null}
+                            {!validEmail &&  <Label color='red' pointing>Please enter an Email!</Label>}
                         </Form.Field>
                         <Form.Field>
                             <label>Password</label>
@@ -97,8 +95,8 @@ export default function Login(props) {
                                 value={formValues.password}
                                 onChange={handleFormChange}
                             />
-                            {!validPassword ? <Label color='red' pointing>Please enter a Password!</Label> : null}
-                            {!validLogin ? <Label color='red' pointing basic >Incorrect Email or Password!</Label> : null}
+                            {!validPassword && <Label color='red' pointing>Please enter a Password!</Label>}
+                            {!validLogin && <Label color='red' pointing basic >Incorrect Email or Password!</Label> }
                         </Form.Field>
                         <a href='signup'>Don't have an account? Signup</a><br/><br/>
                         <Button positive type='submit'>Login</Button>

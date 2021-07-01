@@ -7,12 +7,11 @@ import relativeDate from 'relative-date'
 import { Loader } from 'semantic-ui-react'
 
 export default function Feed(props) {
-    const token = localStorage.getItem('token')
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
 
     const addPost = async (post) => {
-        
+        const token = localStorage.getItem('token')
         const { data } = await axios.get(`/users/${post.userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -28,7 +27,7 @@ export default function Feed(props) {
 
     const loadFeed = () => {
         (async () => {
-
+            const token = localStorage.getItem('token')
             let { data} = await axios.get('/users/feed', {
                 headers: {
                     'Authorization':`Bearer ${token}`
