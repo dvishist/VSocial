@@ -21,7 +21,10 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
                 const buffer = await sharp(rotated.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
                 postObj.image = buffer
             } catch (err) {
-                console.log(err)
+                if (err.message === 'No orientation tag found in EXIF') {
+                    const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+                    postObj.image = buffer
+                }
             }
         }
 
@@ -78,7 +81,11 @@ router.patch('/:id', auth, upload.single('image'), async (req, res) => {
         await post.save()
         res.status(200).send(post)
     } catch (err) {
-        res.status(400).send(err.messsage)
+        if (err.message === 'No orientation tag found in EXIF') {
+            const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+            postObj.image = buffer
+        } else
+            res.status(400).send(err.messsage)
     }
 })
 
