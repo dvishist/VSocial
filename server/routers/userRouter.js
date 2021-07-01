@@ -49,10 +49,11 @@ router.get('/:id', auth, async (req, res) => {
 
 //upload Profile/Cover Picture
 router.post('/:pictureType', auth, upload.single('image'), async (req, res) => {
+    const user = req.user
+    const dimensions = req.params.pictureType === 'profilePicture' ? [500, 500] : [900, 290]
+    const [width, height] = dimensions
+
     try {
-        const user = req.user
-        const dimensions = req.params.pictureType === 'profilePicture' ? [500, 500] : [900, 290]
-        const [width, height] = dimensions
         const rotated = await jo.rotate(req.file.buffer)
         const buffer = await sharp(rotated.buffer).resize({ width, height }).png().toBuffer()
         user[req.params.pictureType] = buffer
@@ -60,8 +61,10 @@ router.post('/:pictureType', auth, upload.single('image'), async (req, res) => {
         res.status(201).send(user)
     } catch (err) {
         if (err.message === 'No orientation tag found in EXIF') {
-            const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
-            postObj.image = buffer
+            const buffer = await sharp(req.file.buffer).resize({ width, height }).png().toBuffer()
+            user[req.params.pictureType] = buffer
+            await user.save()
+            res.status(201).send(user)
         } else
             res.status(400).send(err.message)
     }

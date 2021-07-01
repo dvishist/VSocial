@@ -23,7 +23,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
                 postObj.image = buffer
             } catch (err) {
                 //if orientation tag doesn't exist on EXIF, use default image
-                if (err.message === 'No orientation tag found in EXIF') {
+                if (err.message === 'No orientation tag found in EXIF' || err.code === 'read_exif') {
                     const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
                     postObj.image = buffer
                 }
