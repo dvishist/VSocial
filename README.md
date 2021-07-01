@@ -1,2 +1,2 @@
 # VSocial
-A Social Media MERN Stack project
+Social Media MERN Stack project
