@@ -73,7 +73,7 @@ export default function Post(props) {
                         <TextArea
                             className = 'postText'
                             value={postText}
-                            placeholder={timeGreeting() + " " + user.username.split(" ")[0] + ",   What's on your mind..."}
+                            placeholder={timeGreeting() + " " + user.username.split(" ")[0] + ", What's on your mind..."}
                             onChange={e => { setPostText(e.target.value)}}
                         />
                     </>
