@@ -7,11 +7,10 @@
     flex-direction: column;
     margin-top: 100px;
     padding: 0%;
-    
+    align-items: center;
+
     .segment{
-        width: 50%;
-        margin-left: 25%;
-        align-self: center;
+        float: right;
     }
 
     p,h2,h5{
@@ -24,12 +23,20 @@
         align-self: center;
     }
 
-    .editProfile{
+    .stats{
         align-self: center;
-        justify-self: center;
-        margin-left: 35%;
-        margin-top: 2%;
-        width: 70%
+        margin-bottom: 10px;
+        margin-right: 14px;
+
+        .statistic{
+            padding: 0%;
+            margin: auto;
+        }
+    }
+
+    .editProfile{
+        margin-top: 2%;   
+        align-self: center;
     }
 
 }

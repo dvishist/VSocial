@@ -1,14 +1,14 @@
 import Topbar from '../components/home/Topbar'
 import UserPictures from '../components/home/UserPictures'
 import './styles/profile.scss'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../userContext'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import FeedItem from '../components/home/feed/FeedItem'
 import EditProfile from '../components/home/EditProfile'
 import relativeDate from 'relative-date'
-import { Dimmer, Loader,Button, Label } from 'semantic-ui-react'
+import { Dimmer, Loader,Button, Statistic } from 'semantic-ui-react'
 const imageURL = process.env.REACT_APP_API_URL + '/users'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
@@ -111,6 +111,18 @@ export default function Home() {
             <div className='profileBody'>
                 <h2>{profileUser && profileUser.username}</h2>
                 <p>{profileUser && profileUser.description}</p>
+                <div className="stats">
+                    <Statistic.Group size='tiny' color='teal'>
+                        <Statistic>
+                            <Statistic.Value>{profileUser &&  profileUser.followers.length}</Statistic.Value>
+                            <Statistic.Label>Followers</Statistic.Label>
+                        </Statistic>
+                        <Statistic>
+                            <Statistic.Value>{ profileUser && profileUser.following.length}</Statistic.Value>
+                            <Statistic.Label>Following</Statistic.Label>
+                        </Statistic>
+                    </Statistic.Group>
+                </div>
                 {
                     (profileUser && profileUser._id) !== (user && user._id) ?
                         <Button
@@ -125,12 +137,12 @@ export default function Home() {
                                 <Button
                                     className='followButton'
                                     onClick={() => {
-                                    setEditProfileComponentVisible(true)
+                                        setEditProfileComponentVisible(true)
                                     }
                                 }
                                 >Edit Profile</Button>
                             }
-                            {editProfileComponentVisible && <EditProfile cancel={() => {setEditProfileComponentVisible(false)}}/>}
+                            {editProfileComponentVisible && <EditProfile hide={() => {setEditProfileComponentVisible(false)}}/>}
                         </>
                 }
                 <br/><br/>

@@ -56,7 +56,7 @@ export default function EditProfile(props) {
             }
             setLoading(false)
             setUser(updatedUser)
-            props.cancel()
+            props.hide()
             window.location.reload()
         } catch (err) {
             alert(err.message)
@@ -150,7 +150,7 @@ export default function EditProfile(props) {
                     </Form.Field>
                     <Button color='facebook' type='submit'>Save Changes</Button>
                     <Button onClick={() => {
-                        props.cancel()
+                        props.hide()
                     }}>Cancel</Button>
                 </Form>
                 {loading && <Loader style={{marginLeft: '38%', marginTop:'2%'}} inline active>Saving Changes..</Loader>}
