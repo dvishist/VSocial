@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
 dotenv.config()
 
 const userRouter = require('./routers/userRouter')
@@ -32,6 +33,19 @@ app.use(cors())
 app.use('/api/users', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
+
+//client
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'))
+    })
+} else {
+    app.get('/', (req, res) => {
+        res.send('API')
+    })
+}
 
 
 app.listen(port, () => {
