@@ -101,7 +101,7 @@ router.get('/:id/:pictureType', async (req, res) => {
 //update profile
 router.patch('/self', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowed = ['username', 'email', 'password', 'password', 'isAdmin']
+    const allowed = ['username', 'email', 'password', 'description', 'isAdmin']
     const isAllowed = updates.every(update => allowed.includes(update))
     if (!isAllowed) return res.status(400).send({ error: 'Cannot add invalid updates!' })
     try {

@@ -44,7 +44,8 @@ const userSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        max: 60
+        max: 60,
+        default: ""
     },
     tokens: [{
         token: {
