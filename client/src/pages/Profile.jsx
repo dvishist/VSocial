@@ -9,8 +9,8 @@ import FeedItem from '../components/home/feed/FeedItem'
 import EditProfile from '../components/home/EditProfile'
 import relativeDate from 'relative-date'
 import { Dimmer, Loader,Button, Statistic } from 'semantic-ui-react'
-const imageURL = process.env.REACT_APP_API_URL + '/users'
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
+const imageURL = require('../utils.js/API_URL') + '/users'
+axios.defaults.baseURL = require('../utils.js/API_URL')
 
 export default function Home() {
     const {user,setUser} = useContext(UserContext)
@@ -159,12 +159,12 @@ export default function Home() {
                         key={post._id}
                         postUser={{
                             username: profileUser.username,
-                            profilePicture: process.env.REACT_APP_API_URL + '/users/'+ profileUser._id +'/profilePicture'
+                            profilePicture: require('../utils.js/API_URL') + '/users/'+ profileUser._id +'/profilePicture'
                         }}
                         post={{
                             ...post,
                                     likes: post.likes,
-                                    image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
+                                    image: require('../utils.js/API_URL') + '/posts/' + post._id + '/image',
                                     createdAt: relativeDate(new Date(post.createdAt))
                         }}
                         />)

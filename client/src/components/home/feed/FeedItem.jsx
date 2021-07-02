@@ -3,7 +3,8 @@ import { Feed,Icon,Image,Segment,Button,Label } from 'semantic-ui-react'
 import '../../styles/feedItem.scss'
 import axios from 'axios'
 import { UserContext } from '../../../userContext'
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
+axios.defaults.baseURL = require('../../../utils.js/API_URL')
+
 
 
 export default function FeedItem({ postUser,post}) {

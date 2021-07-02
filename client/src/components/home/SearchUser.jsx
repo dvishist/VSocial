@@ -4,8 +4,8 @@ import { Search} from 'semantic-ui-react'
 import axios from 'axios'
 import '../styles/searchUser.scss'
 import { useHistory } from 'react-router-dom'
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
-const imageURL = process.env.REACT_APP_API_URL + '/users/'
+axios.defaults.baseURL = require('../../utils.js/API_URL')
+const imageURL = require('../../utils.js/API_URL') + '/users/'
 
 const initialState = {
     loading: false,

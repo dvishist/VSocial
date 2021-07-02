@@ -7,8 +7,8 @@ import { useContext, useEffect } from 'react'
 import { UserContext } from '../userContext'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
-const imageURL = process.env.REACT_APP_API_URL + '/users'
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
+const imageURL = require('../utils.js/API_URL') + '/users'
+axios.defaults.baseURL = require('../utils.js/API_URL')
 const token = localStorage.getItem('token')
 
 

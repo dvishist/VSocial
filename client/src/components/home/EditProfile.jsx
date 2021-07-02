@@ -3,7 +3,7 @@ import { Segment, Form,Button, Loader } from 'semantic-ui-react'
 import { UserContext } from '../../userContext'
 import axios from 'axios'
 import FormData from 'form-data'
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
+axios.defaults.baseURL = require('../../utils.js/API_URL')
 
 
 export default function EditProfile(props) {

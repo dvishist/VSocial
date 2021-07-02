@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../../userContext'
 import SearchUser from './SearchUser'
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
+axios.defaults.baseURL = require('../../utils.js/API_URL')
 
 export default function Topbar(props) {
     const history = useHistory()
