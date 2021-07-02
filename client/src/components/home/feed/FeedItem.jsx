@@ -3,7 +3,7 @@ import { Feed,Icon,Image,Segment,Button,Label } from 'semantic-ui-react'
 import '../../styles/feedItem.scss'
 import axios from 'axios'
 import { UserContext } from '../../../userContext'
-axios.defaults.baseURL = require('../../../utils.js/API_URL')
+axios.defaults.baseURL = require('../../../utils.js/API_URL').API_URL
 
 
 

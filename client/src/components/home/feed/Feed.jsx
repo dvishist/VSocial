@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import relativeDate from 'relative-date'
 import { Loader } from 'semantic-ui-react'
+axios.defaults.baseURL = require('../../../utils.js/API_URL').API_URL
 
 export default function Feed(props) {
     const [posts, setPosts] = useState([])

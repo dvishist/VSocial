@@ -5,8 +5,8 @@ import User from '../User'
 import axios from 'axios'
 import timeGreeting from 'time-greeting'
 import FormData from 'form-data'
-axios.defaults.baseURL = require('../../../utils.js/API_URL')
-const imageURL = require('../../../utils.js/API_URL') + '/users'
+axios.defaults.baseURL = require('../../../utils.js/API_URL').API_URL
+const imageURL = require('../../../utils.js/API_URL').API_URL + '/users'
 
 export default function Post(props) {
     const {user,setUser} = useContext(UserContext)
