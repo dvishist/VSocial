@@ -1,13 +1,14 @@
 import Topbar from '../components/home/Topbar'
 import UserPictures from '../components/home/UserPictures'
 import './styles/profile.scss'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { UserContext } from '../userContext'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import FeedItem from '../components/home/feed/FeedItem'
+import EditProfile from '../components/home/EditProfile'
 import relativeDate from 'relative-date'
-import { Dimmer, Loader,Button } from 'semantic-ui-react'
+import { Dimmer, Loader,Button, Label } from 'semantic-ui-react'
 const imageURL = process.env.REACT_APP_API_URL + '/users'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
@@ -18,7 +19,9 @@ export default function Home() {
     const [profileUser, setProfileUser] = useState(null)
     const [loading,setLoading] = useState(false)
     const [following, setFollowing] = useState(false)
+    const [editProfileComponentVisible, setEditProfileComponentVisible] = useState(false)
 
+    
     const followHandle = () => {
         const token = localStorage.getItem('token')
         const action = following ? 'unfollow' : 'follow'
@@ -31,7 +34,6 @@ export default function Home() {
         setFollowing(following => !following)
         
     }
-
 
     const verifyUser = async (id) => {
         const token = localStorage.getItem('token')
@@ -107,16 +109,29 @@ export default function Home() {
             <UserPictures userId={profileUser && profileUser._id} />
             
             <div className='profileBody'>
-                <h2>{ profileUser && profileUser.username}</h2>
+                <h2>{profileUser && profileUser.username}</h2>
+                <p>{profileUser && profileUser.description}</p>
                 {
-                    (profileUser && profileUser._id) !== (user && user._id) &&
-                    <Button
-                        className='followButton'
-                        color={following ? 'grey' : 'twitter'}
-                        onClick={followHandle}
-                    >
-                        {following ? 'Unfollow' : 'Follow'}
-                    </Button>
+                    (profileUser && profileUser._id) !== (user && user._id) ?
+                        <Button
+                            className='followButton'
+                            color={following ? 'grey' : 'twitter'}
+                            onClick={followHandle}
+                        >
+                            {following ? 'Unfollow' : 'Follow'}
+                        </Button> :
+                        <>
+                            {!editProfileComponentVisible &&
+                                <Button
+                                    className='followButton'
+                                    onClick={() => {
+                                    setEditProfileComponentVisible(true)
+                                    }
+                                }
+                                >Edit Profile</Button>
+                            }
+                            {editProfileComponentVisible && <EditProfile cancel={() => {setEditProfileComponentVisible(false)}}/>}
+                        </>
                 }
                 <br/><br/>
                 {loading ?

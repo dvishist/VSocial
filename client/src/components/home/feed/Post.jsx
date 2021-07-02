@@ -6,7 +6,6 @@ import axios from 'axios'
 import timeGreeting from 'time-greeting'
 import FormData from 'form-data'
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
-const token = localStorage.getItem('token')
 const imageURL = process.env.REACT_APP_API_URL + '/users'
 
 export default function Post(props) {
@@ -17,6 +16,7 @@ export default function Post(props) {
     const [loading, setLoading] = useState(false)
     
     const submitForm = async () => {
+        const token = localStorage.getItem('token')
         setLoading(true)
         if (postText) {
             const data = new FormData()
@@ -42,6 +42,7 @@ export default function Post(props) {
     
 
     useEffect(() => {
+        const token = localStorage.getItem('token')
         const verifyUser = async () => {
             if (!user) {
                 if (token) {

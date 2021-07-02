@@ -61,6 +61,7 @@ export default function Signup() {
                     password: formValues.password
                 })
                 history.push('/login')
+                alert('Account Created! Please Log In.')
             } catch (err) {
                 setUniqueEmail(false)
             }
