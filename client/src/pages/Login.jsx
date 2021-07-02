@@ -18,7 +18,7 @@ export default function Login(props) {
     const [validLogin, setValidLogin] = useState(true)
     const [loading,setLoading] = useState(false)
 
-    const { user, setUser } = useContext(UserContext)
+    const { setUser } = useContext(UserContext)
 
     const [formValues, setFormValues] = useState({
         email: '',
@@ -39,7 +39,7 @@ export default function Login(props) {
         return () => {
             
         }
-    },[])
+    },[history])
 
     const handleFormChange = (e) => {
         setFormValues(currentValues => ({

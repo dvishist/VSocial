@@ -35,7 +35,28 @@ export default function Home() {
         
     }
 
-    const verifyUser = async (id) => {
+    
+
+    const fetchPosts = async (id,token) => {
+        try {
+            const res = await axios.get(`/posts/all/${id}`, {
+                headers: {
+                    'Authorization':`Bearer ${token}`
+                }
+            })
+
+            const sorted = res.data.reverse()
+            setPosts(sorted)
+            setLoading(false)
+        } catch (err) {
+            console.log(err)
+            setLoading(false)
+        }
+    }
+
+
+    useEffect(() => {
+        const verifyUser = async (id) => {
         const token = localStorage.getItem('token')
         if (!user) {
             if (token) {
@@ -57,26 +78,7 @@ export default function Home() {
             }
         }
     }
-
-    const fetchPosts = async (id,token) => {
-        try {
-            const res = await axios.get(`/posts/all/${id}`, {
-                headers: {
-                    'Authorization':`Bearer ${token}`
-                }
-            })
-
-            const sorted = res.data.reverse()
-            setPosts(sorted)
-            setLoading(false)
-        } catch (err) {
-            console.log(err)
-            setLoading(false)
-        }
-    }
-
-
-    useEffect(() => {
+        
         setLoading(true)
         const fetchData = async () => {
             const token = localStorage.getItem('token')
@@ -97,7 +99,7 @@ export default function Home() {
            setLoading(false)
         }
         fetchData()
-    }, [])
+    }, [history,setUser,user])
     
     return profileUser === 'None' ?
         <div>

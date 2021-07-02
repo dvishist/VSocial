@@ -35,7 +35,7 @@ export default function Leftbar({user}) {
         Promise.all(followerList).then(data => {
             setFollowers(data)
         })
-    }, [])
+    }, [token,user])
 
     return <div className="leftbar">
         <h2>My Connections</h2>
@@ -52,8 +52,6 @@ export default function Leftbar({user}) {
                     <Follower key={ user._id + 'following'} img={imageURL + `/${user._id}/profilePicture`} id={user._id} name={ user.username} type='Following'/>
                 )
             }
-            
-            {/* <Follower img='https://react.semantic-ui.com/images/avatar/small/veronika.jpg' name='Tuku' type='Follower' /> */}
-        </div>
+            </div>
     </div>       
 }

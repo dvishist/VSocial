@@ -32,7 +32,7 @@ export default function FeedItem({ postUser,post}) {
         let liked = 0
         if (user) liked = post.likes.includes(user._id)
         setLiked(liked)
-    },[])
+    },[user, post])
 
     return (
         <Segment color='teal'>

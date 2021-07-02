@@ -72,7 +72,7 @@ export default function EditProfile(props) {
             profilePicture: '',
             coverPicture: ''
         })
-    },[])
+    },[user])
     
     return (
         <div className='editProfile'>

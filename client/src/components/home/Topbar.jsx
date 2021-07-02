@@ -13,7 +13,10 @@ export default function Topbar(props) {
     const history = useHistory()
     const {user,setUser} = useContext(UserContext)
 
-    const verifyUser = async () => {
+    
+
+    useEffect(() => {
+        const verifyUser = async () => {
         const token = localStorage.getItem('token')
         if (!user) {
             if (token) {
@@ -33,10 +36,9 @@ export default function Topbar(props) {
             }
         }
     }
-
-    useEffect(() => {
+        
         verifyUser()
-    }, [])
+    }, [history,setUser,user])
 
 
     const logout = async () => {

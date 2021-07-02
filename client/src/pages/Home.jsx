@@ -22,7 +22,10 @@ export default function Home() {
     const {user,setUser} = useContext(UserContext)
     const history = useHistory()
 
-    const verifyUser = async () => {
+    
+
+    useEffect(() => {
+        const verifyUser = async () => {
         if (!user) {
             if (token) {
                 try {
@@ -42,9 +45,8 @@ export default function Home() {
         }
     }
 
-    useEffect(() => {
         verifyUser()
-    }, [])
+    }, [history,setUser,user])
     
     return <div>
         { user && <Topbar userImg={imageURL + '/' + user._id + '/profilePicture'} />}
