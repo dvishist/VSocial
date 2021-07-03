@@ -46,10 +46,8 @@ export default function Home() {
 
             const sorted = res.data.reverse()
             setPosts(sorted)
-            setLoading(false)
         } catch (err) {
             console.log(err)
-            setLoading(false)
         }
     }
 

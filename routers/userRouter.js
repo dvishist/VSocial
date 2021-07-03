@@ -46,6 +46,7 @@ router.get('/feed', auth, async (req, res) => {
         let allPosts = [...selfPosts, ...posts]
         //sort by latest
         allPosts = allPosts.sort((post1, post2) => post2.createdAt - post1.createdAt)
+        allPosts.length = 5
         res.status(200).send(allPosts)
     } catch (err) {
         res.status(400).send(err.message)
