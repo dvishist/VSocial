@@ -52,7 +52,6 @@ export default function Signup() {
         })
 
         if (validUserName && validEmail && passwordLength && passwordMatch) {
-            console.log(formValues)
             try {
                 await axios.post('/auth/register', {
                     username: formValues.fullName,
