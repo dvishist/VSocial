@@ -1,18 +1,17 @@
 import React,{useContext, useEffect, useState} from 'react'
 import { Feed,Icon,Image,Segment,Button,Label } from 'semantic-ui-react'
 import '../../styles/feedItem.scss'
-import axios from 'axios'
 import { UserContext } from '../../../userContext'
-axios.defaults.baseURL = require('../../../utils.js/API_URL').API_URL
-
+import axios from 'axios'
 
 
 export default function FeedItem({ postUser,post}) {
     const {user} = useContext(UserContext)
-    
     const [likes, setLikes] = useState(post.likes.length)
     const [isLiked,setLiked] = useState(false)
-    
+    const [profileImage, setProfileImage] = useState('')
+    const [postImage, setPostImage] = useState('')
+
     const handleLike = async () => {
         const token = localStorage.getItem('token')
         setLikes(likes => isLiked ? likes - 1 : likes + 1)
@@ -24,22 +23,45 @@ export default function FeedItem({ postUser,post}) {
                     'Authorization': `Bearer ${token}`
                 }
             })
+            console.log('liked')
         } catch (err) {
             console.log(err)
         }
     }
 
+    
+    
+    
     useEffect(() => {
-        let liked = 0
+        const getImages = async () => {
+            try {
+                const profileImageResponse = await axios.get(`/users/${postUser.id}/profilePicture`)
+                
+                const postImageResponse = await axios.get(`/posts/${post._id}/image`)
+                
+                const encodedProfile = 'data:image/png;charset=utf-8;base64, ' + Buffer.from(profileImageResponse.data, 'binary').toString('base64')
+                const encodedPost = 'data:image/png;charset=utf-8;base64, ' + Buffer.from(postImageResponse.data, 'binary').toString('base64')
+
+                setProfileImage(encodedProfile)
+                setPostImage(encodedPost)
+                
+            } catch (err) {
+                console.log(err.message)
+            }
+            
+        }
+        getImages()
+
+        let liked = false
         if (user) liked = post.likes.includes(user._id)
         setLiked(liked)
-    },[user, post])
+    },[user, post, postUser])
 
     return (
         <Segment color='teal'>
             <span className = 'feedInfo'>
                 <Feed.Event>
-                <Image size='mini' src={postUser.profilePicture} avatar />
+                { profileImage && <img alt='' size='mini' src={profileImage} avatar />}
                     <span style={{
                         marginLeft: '9px',
                         fontSize: '20px',
@@ -59,7 +81,7 @@ export default function FeedItem({ postUser,post}) {
                         {post.description}
                 </Feed.Extra>
                 <Feed.Extra images>
-                    <img className='postImage' alt='' src={post.image} />
+                    {postImage && <img className='postImage' alt='' src={postImage} />}
                 </Feed.Extra>
                 <div className='like'>
                     <Button as='div' labelPosition='right'>

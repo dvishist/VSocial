@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import relativeDate from 'relative-date'
 import { Loader } from 'semantic-ui-react'
+const imageURL = require('../../../utils.js/API_URL').API_URL
 axios.defaults.baseURL = require('../../../utils.js/API_URL').API_URL
 
 export default function Feed(props) {
@@ -29,19 +30,18 @@ export default function Feed(props) {
     const loadFeed = () => {
         (async () => {
             const token = localStorage.getItem('token')
-            let { data} = await axios.get('/users/feed', {
+            let feed = await axios.get('/users/feed', {
                 headers: {
                     'Authorization':`Bearer ${token}`
                 }
             })
             
-            data = data.map(async post => {
+            let data = feed.data.map(async post => {
                 const {data} = await axios.get(`/users/${post.userId}`, {
                 headers: {
                     'Authorization':`Bearer ${token}`
                 }
             })
-                
                 return {
                     ...post,
                     user:data
@@ -73,12 +73,11 @@ export default function Feed(props) {
                             postUser={{
                                 id:post.user._id,
                                 username: post.user.username,
-                                profilePicture: process.env.REACT_APP_API_URL + '/users/'+ post.userId +'/profilePicture'
+                                profilePicture: imageURL + '/users/'+ post.userId +'/profilePicture'
                             }}
                             post={{
                                 ...post,
-                                likes: post.likes,
-                                image: process.env.REACT_APP_API_URL + '/posts/' + post._id + '/image',
+                                image:  imageURL+ '/posts/' + post._id + '/image',
                                 createdAt: relativeDate(new Date(post.createdAt))
                             }}
                         />

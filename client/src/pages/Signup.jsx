@@ -5,7 +5,6 @@ import img from '../components/icons/icon.png'
 import validator from 'validator'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
-axios.defaults.baseURL = require('../utils.js/API_URL').API_URL
 
 export default function Signup() {
     const history = useHistory()

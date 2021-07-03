@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../../styles/leftbar.scss'
 import Follower from './Follower'
-axios.defaults.baseURL = require('../../../utils.js/API_URL').API_URL
 const imageURL = require('../../../utils.js/API_URL').API_URL + '/users'
 
 export default function Leftbar({user}) {

@@ -10,7 +10,6 @@ import EditProfile from '../components/home/EditProfile'
 import relativeDate from 'relative-date'
 import { Dimmer, Loader,Button, Statistic } from 'semantic-ui-react'
 const imageURL = require('../utils.js/API_URL').API_URL + '/users'
-axios.defaults.baseURL = require('../utils.js/API_URL').API_URL
 
 export default function Home() {
     const {user,setUser} = useContext(UserContext)

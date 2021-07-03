@@ -7,7 +7,6 @@ import { UserContext } from '../userContext'
 import {useHistory} from 'react-router-dom'
 
 const token = localStorage.getItem('token')
-axios.defaults.baseURL=require('../utils.js/API_URL').API_URL
 
 export default function Login(props) {
     const history = useHistory()
