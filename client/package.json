@@ -47,5 +47,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "/api"
+  "proxy": "http://vsocial-mern.herokuapp.com/api"
 }
