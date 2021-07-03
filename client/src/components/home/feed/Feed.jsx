@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import relativeDate from 'relative-date'
 import { Loader } from 'semantic-ui-react'
-const imageURL = require('../../../utils.js/API_URL').API_URL
-axios.defaults.baseURL = require('../../../utils.js/API_URL').API_URL
+const { API_URL } = require('../../../utils.js/API_URL')
+axios.defaults.baseURL=API_URL
 
 export default function Feed(props) {
     const [posts, setPosts] = useState([])
@@ -73,11 +73,11 @@ export default function Feed(props) {
                             postUser={{
                                 id:post.user._id,
                                 username: post.user.username,
-                                profilePicture: imageURL + '/users/'+ post.userId +'/profilePicture'
+                                profilePicture: API_URL + '/users/'+ post.userId +'/profilePicture'
                             }}
                             post={{
                                 ...post,
-                                image:  imageURL+ '/posts/' + post._id + '/image',
+                                image:  API_URL+ '/posts/' + post._id + '/image',
                                 createdAt: relativeDate(new Date(post.createdAt))
                             }}
                         />

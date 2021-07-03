@@ -5,6 +5,8 @@ import logo from '../components/icons/icon.png'
 import axios from 'axios'
 import { UserContext } from '../userContext'
 import {useHistory} from 'react-router-dom'
+const { API_URL } = require('../utils.js/API_URL')
+axios.defaults.baseURL=API_URL
 
 const token = localStorage.getItem('token')
 

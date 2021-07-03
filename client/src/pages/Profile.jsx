@@ -55,6 +55,7 @@ export default function Home() {
 
 
     useEffect(() => {
+        setLoading(true)
         const verifyUser = async (id) => {
         const token = localStorage.getItem('token')
         if (!user) {
@@ -78,7 +79,6 @@ export default function Home() {
         }
     }
         
-        setLoading(true)
         const fetchData = async () => {
             const token = localStorage.getItem('token')
             const params = new URLSearchParams(window.location.search)
