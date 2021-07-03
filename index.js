@@ -25,8 +25,8 @@ mongoose.connect(process.env.MONGO_URL, {
 
 //middleware
 app.use(express.json())
-app.use(helmet())
-app.use(morgan('common'))
+// app.use(helmet())
+// app.use(morgan('common'))
 app.use(cors())
 
 //routers
