@@ -14,9 +14,6 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
-        validate(value) {
-            if (!validator.isEmail(value)) throw new Error('Invalid Email')
-        }
     },
     password: {
         type: String,
@@ -37,10 +34,6 @@ const userSchema = mongoose.Schema({
     following: {
         type: Array,
         default: []
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false
     },
     description: {
         type: String,
