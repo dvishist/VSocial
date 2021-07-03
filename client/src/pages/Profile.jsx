@@ -16,7 +16,7 @@ export default function Home() {
     const history = useHistory()
     const [posts, setPosts] = useState([])
     const [profileUser, setProfileUser] = useState(null)
-    const [loading,setLoading] = useState(false)
+    const [loading,setLoading] = useState(true)
     const [following, setFollowing] = useState(false)
     const [editProfileComponentVisible, setEditProfileComponentVisible] = useState(false)
 
@@ -53,7 +53,6 @@ export default function Home() {
 
 
     useEffect(() => {
-        setLoading(true)
         const verifyUser = async (id) => {
         const token = localStorage.getItem('token')
         if (!user) {
@@ -66,7 +65,8 @@ export default function Home() {
                     })
                     setUser(data)
                     setFollowing ((data.following.find(user => user===id)) ? true : false)
-                    fetchPosts(id,token)
+                    fetchPosts(id, token)
+                    setLoading(false)
                 } catch (err) {
                     localStorage.removeItem('token')
                     history.push('/login')
@@ -93,10 +93,9 @@ export default function Home() {
                 verifyUser(id)
                 setProfileUser('None')
             }
-           setLoading(false)
         }
         fetchData()
-    }, [history,setUser,user])
+    }, [])
     
     return profileUser === 'None' ?
         <div>
