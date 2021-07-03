@@ -19,12 +19,12 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
             try {
                 //rotate to correct orientation
                 const rotated = await jo.rotate(req.file.buffer)
-                const buffer = await sharp(rotated.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+                const buffer = await sharp(rotated.buffer).resize({ width: 200, height: 200 }).png().toBuffer()
                 postObj.image = buffer
             } catch (err) {
                 //if orientation tag doesn't exist on EXIF, use default image
                 if (err.message === 'No orientation tag found in EXIF' || err.code === 'read_exif') {
-                    const buffer = await sharp(req.file.buffer).resize({ width: 300, height: 300 }).png().toBuffer()
+                    const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer()
                     postObj.image = buffer
                 }
             }

@@ -46,7 +46,6 @@ router.get('/feed', auth, async (req, res) => {
         let allPosts = [...selfPosts, ...posts]
         //sort by latest
         allPosts = allPosts.sort((post1, post2) => post2.createdAt - post1.createdAt)
-        allPosts.length = 5
         res.status(200).send(allPosts)
     } catch (err) {
         res.status(400).send(err.message)
@@ -66,7 +65,7 @@ router.get('/:id', auth, async (req, res) => {
 //upload Profile/Cover Picture
 router.post('/:pictureType', auth, upload.single('image'), async (req, res) => {
     const user = req.user
-    const dimensions = req.params.pictureType === 'profilePicture' ? [500, 500] : [900, 290]
+    const dimensions = req.params.pictureType === 'profilePicture' ? [100, 100] : [300, 97]
     const [width, height] = dimensions
 
     try {
