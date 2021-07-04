@@ -30,6 +30,12 @@ export default function Home() {
                 'Authorization':`Bearer ${token}`
             }
         })
+        
+        if (following)
+            profileUser.followers = profileUser.followers.filter(id => id !== user._id)
+        else
+            profileUser.followers.push(user._id)
+        
         setFollowing(following => !following)
         
     }
@@ -146,7 +152,7 @@ export default function Home() {
                 <br/><br/>
                 {loading ?
                     <Dimmer active>
-                        <Loader active>Loading Posts</Loader>
+                        <Loader active>Loading Profile</Loader>
                     </Dimmer>
                     
                     :
